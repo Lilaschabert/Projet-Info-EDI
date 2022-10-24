@@ -159,7 +159,11 @@ table.cinereousTable tfoot td {
 	height:250px;
 	font-size: 3em;
 }
-
+.ref{
+	text-align:center;
+	height:150px;
+	font-size: 1em;
+}
 
 
 /* *************** liens **************** */
