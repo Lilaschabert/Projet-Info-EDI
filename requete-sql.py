@@ -89,7 +89,37 @@ def change_etat_commande_recu(id_commande,etat,date_validation):
         return False
 
 
+def passer_commande(dict_nombre_pieces,date_commande):
+    conn = connection_bdd()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM fournisseur;")
+    liste_id_fournisseur = cur.fetchall()
+    dict_commande_par_fournisseur={}
+    for fournisseur in liste_id_fournisseur:
+        dict_pieces_par_fournisseur[fournisseur['id']]={}
 
+    cur.execute("SELECT id,code_article,idFournisseur FROM pieces;")
+    liste_pieces = cur.fetchall()
+    dict_fournisseur_pieces={}
+    dict_id_pieces={}
+    for piece in liste_pieces:
+        dict_id_pieces[piece['code_article']]=piece['id']
+        dict_idfournisseur_pieces[piece['code_article']]=piece['idFournisseur']
+
+    for code_article, nombre_pieces in dict_nombre_pieces.items():
+        dict_pieces_par_fournisseur[dict_idfournisseur_pieces[code_article]][dict_id_pieces[code_article]]=nombre_pieces
+
+    for fournisseur in liste_id_fournisseur:
+        cur.execute("INSERT INTO commande_pieces('date_commande', 'etat', 'idFournisseur') VALUES (?,?,?);", (date_commande, "commandee", fournisseur['id']))
+        conn.commit()
+        cur.execute("SELECT id FROM commande_pieces WHERE date_commande=? etat=? idFournisseur=?;", (date_commande, "commandee", fournisseur['id']))
+        id_commande=cur.fetchall()[0]['id']
+        for id_pieces, nombre_pieces in dict_pieces_par_fournisseur['fournisseur'].items():
+            cur.execute("INSERT INTO conenu_commande_pieces('id_piece', 'id_commande', 'nombre_piece') VALUES (?,?,?)",
+                        (str(id_pieces), str(id_commande), str(nombre_pieces)))
+        conn.commit()
+    conn.close()
+    return(liste_id_furnisseur)
 
 
 
@@ -187,5 +217,3 @@ UPDATE commande_kits SET etat=invalide WHERE commande_kits.id == commande
 
 UPDATE commande_kits SET date_validation=date WHERE commande_kits.id == commande
 """
-test=liste_pieces_commande(1)
-print(test)
