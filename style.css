@@ -164,7 +164,9 @@ table.cinereousTable tfoot td {
 	height:150px;
 	font-size: 1em;
 }
-
+.but{
+	text-align:center;
+}
 
 /* *************** liens **************** */
 #liens{
