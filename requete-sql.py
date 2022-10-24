@@ -7,44 +7,74 @@ def connection_bdd():
     con.row_factory = lite.Row
     return con
 
-#page historique
+
+# page historique
 def historique_commande(nomFournisseur=""):
     """requetes pour les pages d'historique des commandes"""
     conn = connection_bdd()
     cur = conn.cursor()
-    querry="""SELECT id,date_commande,date_validation,etat FROM commande_pieces"""
-    if nomFournisseur!="":
-        querry+="JOIN fournisseur ON fournisseur.id==commande_pieces.idFournisseur WHERE fournisseur.nom="+nomFournisseur
-    cur.execute(querry+";")
+    querry = """SELECT id,date_commande,date_validation,etat FROM commande_pieces"""
+    if nomFournisseur != "":
+        querry += "JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur WHERE fournisseur.nom=" + nomFournisseur
+    cur.execute(querry + ";")
     lignes = cur.fetchall()
     conn.close()
     return lignes
+
 
 ##page commandes à expedier
 def commande_a_expedier(nomFournisseur):
     """requetes pour récupérer les commandes à expedier d'un fournisseur donné"""
     conn = connection_bdd()
     cur = conn.cursor()
-    querry="""SELECT id FROM commande_pieces
-    JOIN fournisseur ON fournisseur.id==commande_pieces.idFournisseur
+    querry = """SELECT id FROM commande_pieces
+    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
     WHERE fournisseur.nom=? AND etat='commandee'
     """
-    cur.execute(querry,(nomFournisseur))
+    cur.execute(querry, (nomFournisseur))
     lignes = cur.fetchall()
     conn.close()
     return lignes
+
 
 def expedition_commande(id_commande):
     """requete pour valider l'expedition d'une commande"""
     try:
         conn = connection_bdd()
         cur = conn.cursor()
-        cur.execute("UPDATE commande_pieces SET etat='envoyee' WHERE id == ?", (id_commande))
+        cur.execute("UPDATE commande_pieces SET etat='envoyee' WHERE id = ?", (str(id_commande)))
         conn.commit()
         conn.close()
         return True
     except lite.Error:
         return False
+
+
+def commandes_pieces_recu():
+    """requete pour renvoyer la listes des commandes reçu par AgiLog, non encore validée/invalidée"""
+    conn = connection_bdd()
+    cur = conn.cursor()
+    querry = """SELECT id FROM commande_pieces
+    WHERE etat='envoyee';"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+def liste_pieces_commande(id_commande):
+    """requete pour renvoyer les pièces d'une commandes définie par son id"""
+    conn = connection_bdd()
+    cur = conn.cursor()
+    querry = """SELECT designation,code_article,nombre_piece FROM pieces
+    JOIN contenu_commande_pieces ON id_piece=pieces.id
+    JOIN commande_pieces ON commande_pieces.id=id_commande
+    WHERE pieces.id=?;"""
+    cur.execute(querry,(str(id_commande)))
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
 
 """
 def template_lecture(lettre):
@@ -69,26 +99,6 @@ def template_insertion(nom, prenom, role):
 """
 
 """
-## AGIGREEN + AGIPARTS ##
-
-**
-Page a expedier
-
-commande = SELECT id FROM commande_pieces
-
-quand envoi:
-UPDATE commande_pieces SET etat=envoye WHERE commande_pieces.id == commande
-
-**
-Page historique
-
-SELECT id, date_validation, etat FROM commande_pieces
-
-
-
-
-
-
 ## AGILOG
 
 LIEN AVEC AGIGREEN/PARTS
@@ -160,3 +170,5 @@ UPDATE commande_kits SET etat=invalide WHERE commande_kits.id == commande
 
 UPDATE commande_kits SET date_validation=date WHERE commande_kits.id == commande
 """
+test=liste_pieces_commande(1)
+print(test)
