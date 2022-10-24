@@ -36,7 +36,6 @@ def commande_a_expedier(nomFournisseur):
     conn.close()
     return lignes
 
-
 def expedition_commande(id_commande):
     """requete pour valider l'expedition d'une commande"""
     try:
@@ -50,6 +49,7 @@ def expedition_commande(id_commande):
         return False
 
 
+##page validations des receptions de commandes
 def commandes_pieces_recu():
     """requete pour renvoyer la listes des commandes reçu par AgiLog, non encore validée/invalidée"""
     conn = connection_bdd()
@@ -60,7 +60,6 @@ def commandes_pieces_recu():
     lignes = cur.fetchall()
     conn.close()
     return lignes
-
 
 def liste_pieces_commande(id_commande):
     """requete pour renvoyer les pièces d'une commandes définie par son id"""
@@ -74,6 +73,24 @@ def liste_pieces_commande(id_commande):
     lignes = cur.fetchall()
     conn.close()
     return lignes
+
+def change_etat_commande_recu(id_commande,etat,date_validation):
+    """requete pour valider/invalider une commande reçu par AgiLog"""
+    if not(etat in ["validee","invalidee"]):
+        return("etat incorrect")
+    try:
+        conn = connection_bdd()
+        cur = conn.cursor()
+        cur.execute("UPDATE commande_pieces SET etat='?',date_validation='?' WHERE id = ?", (etat,date_validation,str(id_commande)))
+        conn.commit()
+        conn.close()
+        return True
+    except lite.Error:
+        return False
+
+
+
+
 
 
 """
