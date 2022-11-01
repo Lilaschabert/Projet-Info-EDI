@@ -154,9 +154,19 @@ table.cinereousTable thead th:first-child {
 table.cinereousTable tfoot td {
   font-size: 15px;
 }
-
-
-
+.formulaire{
+	text-align:center;
+	height:250px;
+	font-size: 3em;
+}
+.ref{
+	text-align:center;
+	height:150px;
+	font-size: 1em;
+}
+.but{
+	text-align:center;
+}
 
 /* *************** liens **************** */
 #liens{
