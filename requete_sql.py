@@ -138,6 +138,22 @@ def affichage_stock():
     conn.close()
     return lignes
 
+def sql_init_stock(dict_pieces):
+    """<dict_pieces> est un dictionnaire avec pour clé l'id des pièces',
+    et comme valeur un dictionnaire des <case:valeurs>"""
+    conn, cur = connection_bdd()
+    print(dict_pieces)
+    for id_piece, data in dict_pieces.items():
+        print(id_piece)
+        print(data)
+        liste_case=[ str(cle) for cle in data.keys()]
+        query="UPDATE pieces SET "+"=?,".join(liste_case)+"=? WHERE id = ?;"
+        data_query=tuple([data[case] for case in liste_case]+[str(id_piece)])
+        cur.execute(query,data_query)
+    conn.commit()
+    conn.close()
+    return True
+
 
 """
 ## AGILOG
