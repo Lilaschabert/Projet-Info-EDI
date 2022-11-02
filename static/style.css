@@ -15,7 +15,6 @@ li{
 h2{
 	text-transform: uppercase;
 	text-align:center;
-	padding-top: 30px;
 	font-size: 2em;
 }
 a{
@@ -23,8 +22,28 @@ a{
 	color: black;
 }
 #mainBody{
-  background-color: #FFFAE1;
-  width: 100%;
+	background-color: #FFFAE1;
+	width: 100%;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+
+/* ***************STOCKS**************** */
+#stock{
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+input.stock-input{
+	font-size: 13px;
+	font-family: Georgia, serif;
+	width: auto;
+	text-align: center;
+	margin: auto 10px;
+	border:none;
+	padding: 4px 10px;
 }
 
 
@@ -262,11 +281,12 @@ button:hover{
 	height:1px;
 	width:75%;
 	background-color:#FFFAE1;
-	margin:60px auto;
+	margin:25px auto;
 }
 #copyrightEtIcons{
 	display:flex;
-	margin-bottom:209px;
+	align-items:center;
+	margin-bottom:4px;
 	padding:0 10%;
 }
 #copyright{
@@ -277,6 +297,7 @@ button:hover{
 #icons{
 	width:50%;
 	text-align:right;
+	height: 25px;
 }
 
 	

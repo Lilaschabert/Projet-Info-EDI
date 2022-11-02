@@ -131,7 +131,7 @@ def passer_commande(dict_nombre_pieces, date_commande):
 # gestion stocks
 def affichage_stock():
     conn, cur = connection_bdd()
-    querry = """SELECT pieces.id,designation,code_article,nom,stock,seuil_commande FROM pieces
+    querry = """SELECT pieces.id,designation,code_article,nom,stock,seuil_commande,delai,niveau_recompletion FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur"""
     cur.execute(querry)
     lignes = cur.fetchall()

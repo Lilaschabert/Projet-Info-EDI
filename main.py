@@ -59,6 +59,18 @@ def stock():
                            liste_noms_case=liste_noms_case)
 
 
+@app.route('/init_stock')
+def init_stock():
+    title = "Initialisation Stock AgiLog"
+    liste_stock = affichage_stock()
+    liste_entete = ["Désignation","Code article"]
+    liste_case   = ["designation","code_article"]
+    liste_entete_input = ["Stock","Seuil de commande","Délai","Niveau de recompletion"]
+    liste_case_input   = ["stock","seuil_commande",  "delai","niveau_recompletion"]
+    return render_template('page initialisation stock.html', title=title, liste_stock=liste_stock, liste_entete=liste_entete,
+                           liste_case=liste_case,liste_entete_input=liste_entete_input,liste_case_input=liste_case_input)
+
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------

@@ -22,6 +22,7 @@
 	{% block content %}{% endblock %}
 
 	<footer>
+		<!--
 		<h2>Contactez-nous</h2>
 		<form>
 			<input placeholder="Nom">
@@ -29,6 +30,7 @@
 			<textarea placeholder = "Votre message"></textarea>
 			<button>Envoyer</button>
 		</form>
+		-->
 		<div id ="deuxiemeTrait"></div>
 		<div id ="copyrightEtIcons">
 			<div id = "copyright">
@@ -36,9 +38,7 @@
 				<span>MONTOYA</span>
 			</div>
 			<div id = "icons">
-				<a href = "http://www.twitter.fr"><i class = "fa fa-twitter"></i></a>
-				<a href = "http://www.facebook.fr"><i class = "fa fa-facebook"></i></a>
-				<a href = "http://www.instagram.com"><i class = "fa fa-instagram"></i></a>
+				<img src='{{ url_for("static", filename="AM beige.png") }}' alt = "am trad'ss"  width="32" height="32">
 			</div>
 		</div>
 	</footer>
