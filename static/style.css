@@ -26,6 +26,9 @@ a{
 	width: 100%;
 	padding-top: 30px;
 	padding-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items:center;
 }
 
 
@@ -110,10 +113,10 @@ h3{
 
 #presentation{
 	background-color: #FFFAE1;
-	padding:10px 0px 50px 0;
+	margin: 5px 0px 30px 0;
 }
 #textIntro{
-	padding: 0px 20%;
+	padding: 0px;
 }
 #lesEntreprises{
 	display:flex;
@@ -155,6 +158,7 @@ table.cinereousTable {
 table.cinereousTable td, table.cinereousTable th {
   border: 2px solid #948473;
   padding: 4px 10px;
+  max-width: 200px;
 }
 table.cinereousTable tbody td {
   font-size: 13px;
@@ -252,7 +256,7 @@ footer{
 }
 form{
 	margin: 0 auto;
-	max-width: 900px;
+	max-width: 75%;
 }
 input,textarea,button{
 	border:none;

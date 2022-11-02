@@ -13,6 +13,16 @@
 		</div>
 	</section>
 
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+
 	<form method="post">
 		<section id="stock">
 			<table class="cinereousTable">
@@ -33,7 +43,7 @@
 							<td>{{piece[case]}}</td>
 							{% endfor%}
 							{% for case in liste_case_input %}
-							<td> <input class="stock-input" type="text" name='{{ piece["id"]|string+"-"+case }}' value="{{piece[case]}}"/> </td>
+							<td> <input class="stock-input" type="text" name='{{ piece["id"]|string+"-"+case }}' value='{{piece[case]}}'/> </td>
 							{% endfor%}
 						</tr>
 					{% endfor %}
