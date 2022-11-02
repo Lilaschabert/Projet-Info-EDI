@@ -22,6 +22,11 @@ a{
 	text-decoration:none;
 	color: black;
 }
+#mainBody{
+  background-color: #FFFAE1;
+  width: 100%;
+}
+
 
 /* ***************NAVBAR**************** */
 nav{
@@ -53,7 +58,7 @@ header li{
 
 #imagePrincipale{
 	padding-top: 60px;
-	background: url(image-principale.JPG) no-repeat fixed 50% 50%;
+	background: url('image-principale.JPG') no-repeat fixed 50% 50%;
 	background-size:cover;
 	height:799px
 	
@@ -86,7 +91,7 @@ h3{
 
 #presentation{
 	background-color: #FFFAE1;
-	padding:10px 0px 100px 0;
+	padding:10px 0px 50px 0;
 }
 #textIntro{
 	padding: 0px 20%;
@@ -124,8 +129,9 @@ table.cinereousTable {
   font-family: Georgia, serif;
   border: 6px solid #FFFAE1;
   background-color: #FFFAE1;
-  width: 75%;
+  width: auto;
   text-align: center;
+  margin: auto;
 }
 table.cinereousTable td, table.cinereousTable th {
   border: 2px solid #948473;
@@ -172,23 +178,23 @@ table.cinereousTable tfoot td {
 /* *************** liens **************** */
 #liens{
 	height:1400px;
-	background-color::#f1f2f6;
+	background-color:#f1f2f6;
 	padding: 1px 2px;
 }
 #liens h2{
 	padding-top: 60px;
 }
 #commande{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien2{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien3{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien4{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #liens li{
 	margin:65px 100px 0 100px;
@@ -243,7 +249,7 @@ tetarea{
 }
 button{
 	font-size:1.5em;
-	background-color:#FFFAE1.
+	background-color:#FFFAE1;
 }
 button:hover{
 	background-color:#e55039;
@@ -260,7 +266,7 @@ button:hover{
 }
 #copyrightEtIcons{
 	display:flex;
-	margin-bottom:209x;
+	margin-bottom:209px;
 	padding:0 10%;
 }
 #copyright{

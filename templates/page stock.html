@@ -6,34 +6,32 @@
 	<h3>Stock</h3>
 </div>
 
-<section id = "presentation">
-	<div id = "textIntro">
-	<h2>Stock</h2>
-	</div>
-</section>
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+		<h2>Stock</h2>
+		</div>
+	</section>
 
-<section id="stock">
-	<table class="cinereousTable">
-		<thead>
-			<tr>
-				<th>Reférence</th>
-				<th>Quantité</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>CCO</td>
-				<td>1</td>
-			</tr>
-			<tr>
-				<td>CCF</td>
-				<td>2</td>
-			</tr>
-			<tr>
-				<td>CLO</td>
-				<td>14</td>
-			</tr>
-		</tbody>
-	</table>
-</section>
+	<section id="stock">
+		<table class="cinereousTable">
+			<thead>
+				<tr>
+					{% for entete in liste_noms_entete %}
+					<th>{{entete}}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for piece in liste_stock %}
+					<tr>
+						{% for case in liste_noms_case %}
+						<td>{{piece[case]}}</td>
+						{% endfor%}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+</div>
 {% endblock %}
