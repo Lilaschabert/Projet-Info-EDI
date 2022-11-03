@@ -125,9 +125,10 @@ h3{
 }
 #lesEntreprises{
 	display:flex;
-	flex-wrap:wrap;
-	justify-content:space-between;
-	padding: 30px 10%;	
+	justify-content:center;
+}
+.imagesEntreprises{
+	padding: 0px 10px;
 }
 .imagesEntreprises h4{
 	font-family:'Dancing Script',cursive;
@@ -205,12 +206,9 @@ table.cinereousTable tfoot td {
 
 /* *************** liens **************** */
 #liens{
-	height:1400px;
 	background-color:#f1f2f6;
 	padding: 1px 2px;
-}
-#liens h2{
-	padding-top: 60px;
+	width: 80%;
 }
 #commande{
 	background:url('image a inserer.JPG');
@@ -225,26 +223,32 @@ table.cinereousTable tfoot td {
 	background:url('image a inserer.JPG');
 }
 #liens li{
-	margin:65px 100px 0 100px;
+	margin:30px 75px 45px 75px;
 	height:226px;
-	width:55%;
-	max-width:550px;
+	width:45%;
+	max-width:450px;
 	float:left;
 	box-shadow: 6px 6px 28px -1px rgba(0,0,0,0.75)
+}
+
+#liens .lien-droite{
+	float:right;
 }
 #liens p{
 	height:45px;
 	width:235px;
+	margin-top: 50px;
+	margin-right: -180px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+.lien-gauche p{
 	background-color:#01DF74;
 	float:right;
-	margin:50px -180px 0 0;
-	text-align: center;
+	margin-left: 0px;
 	box-shadow: 4px 4px 0 1px rgba(90,161,43,1);
 }
-#liens #lien2,#liens #lien4{
-	float:right;
-}
-#lien2 p,#lien4 p{
+.lien-droite p{
 	float:left;
 	background-color: cyan;
 	margin-left:-180px;

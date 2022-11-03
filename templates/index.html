@@ -6,44 +6,46 @@
 	<h3>C'est notre projet LEGO</h3>
 </div>
 
-<section id = "presentation">
-	<div id = "textIntro">
-	<h2> Catalogue des entreprises</h2>
-	<p> Un accès simplifié aux différentes entreprises qui font parties du projet.</p>
-	</div>
-
-	<div id = "lesEntreprises">
-		<div class ="imagesEntreprises">
-			<h4>AgiLEAN</h4>
-			<a href = '{{ url_for("agiLEAN") }}'><img src='{{ url_for("static", filename="image lean.JPG") }}' alt = "lean" ></a>
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+		<h2> Catalogue des entreprises</h2>
+		<p> Un accès simplifié aux différentes entreprises qui font parties du projet.</p>
 		</div>
 
-		<div class ="imagesEntreprises">
-			<h4>AgiLOG</h4>
-			<a href = '{{ url_for("agiLOG") }}'><img src='{{ url_for("static", filename="image log.JPG") }}' alt = "log" ></a>
+		<div id = "lesEntreprises">
+			<div class ="imagesEntreprises">
+				<h4>AgiLEAN</h4>
+				<a href = '{{ url_for("agiLEAN") }}'><img src='{{ url_for("static", filename="image lean.JPG") }}' alt = "lean" ></a>
+			</div>
+
+			<div class ="imagesEntreprises">
+				<h4>AgiLOG</h4>
+				<a href = '{{ url_for("agiLOG") }}'><img src='{{ url_for("static", filename="image log.JPG") }}' alt = "log" ></a>
+			</div>
+
+			<div class ="imagesEntreprises">
+				<h4>AgiPART</h4>
+				<a href = '{{ url_for("agiPART") }}'><img src='{{ url_for("static", filename="image part.JPG") }}' alt = "part" ></a>
+			</div>
+
+			<div class ="imagesEntreprises">
+				<h4>AgiGREEN</h4>
+				<a href = '{{ url_for("agiGREEN") }}'><img src='{{ url_for("static", filename="image green.JPG") }}' alt = "green" ></a>
+			</div>
+
 		</div>
+	</section>
 
-		<div class ="imagesEntreprises">
-			<h4>AgiPART</h4>
-			<a href = '{{ url_for("agiPART") }}'><img src='{{ url_for("static", filename="image part.JPG") }}' alt = "part" ></a>
-		</div>
+	<section id = "liens">
+		<h2>Accès rapide</h2>
+		<ul>
+			<li class="lien-gauche" id = "commande"><p>Passer Commande</p></li>
+			<li class="lien-droite" id = "lien2"><p>aller lien 2</p></li>
+			<li class="lien-gauche" id = "lien3"><p>aller lien 3</p></li>
+			<li class="lien-droite" id = "lien4"><p>alller lien 4</p></li>
+		</ul>
 
-		<div class ="imagesEntreprises">
-			<h4>AgiGREEN</h4>
-			<a href = '{{ url_for("agiGREEN") }}'><img src='{{ url_for("static", filename="image green.JPG") }}' alt = "green" ></a>
-		</div>
-
-	</div>
-</section>
-
-<section id = "liens">
-	<h2>Accès rapide</h2>
-	<ul>
-		<li id = "commande"><p>Passer Commande</p></li>
-		<li id = "lien2"><p>aller lien 2</p></li>
-		<li id = "lien3"><p>aller lien 3</p></li>
-		<li id = "lien4"><p>alller lien 4</p></li>
-	</ul>
-
-</section>
+	</section>
+</div>
 {% endblock %}
