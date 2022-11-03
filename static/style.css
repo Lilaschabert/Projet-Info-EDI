@@ -24,8 +24,7 @@ a{
 #mainBody{
 	background-color: #FFFAE1;
 	width: 100%;
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding: 10px 0px;
 	display: flex;
 	flex-direction: column;
 	align-items:center;
@@ -87,7 +86,7 @@ header li{
 	padding-top: 60px;
 	background: url('image-principale.JPG') no-repeat fixed 50% 50%;
 	background-size:cover;
-	height:799px
+	height:500px
 	
 }
 
@@ -96,7 +95,7 @@ h1{
 	text-align:center;
 	color:antiquewhite;
 	font-size:6em;
-	margin-top:100px;
+	margin:64px 0px;
 	text-shadow:1px 3px 2px black;
 	
 }
