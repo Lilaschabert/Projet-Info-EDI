@@ -155,7 +155,7 @@ def historique(entite):
     liste_noms_case   = ["id","nom",         "etat","date_commande",   "date_validation"]
     return render_template('page historique commande.html', title=title, liste_commandes=liste_commandes,
                            liste_noms_entete=liste_noms_entete,
-                           liste_noms_case=liste_noms_case)
+                           liste_noms_case=liste_noms_case,entite=entite)
 
 
 # ---------------------------------------
