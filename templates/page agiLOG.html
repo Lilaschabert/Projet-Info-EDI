@@ -10,10 +10,11 @@
 		<div id = "textIntro">
 		<h2> Catalogue AgiLOG</h2>
 		</div>
-		<div class = "listeliens">
+		<div>
 			<ul>
-				<li id="lienStock"><a href='{{ url_for("stock") }}'>Affihage Stock</a></li>
-				<li id="lienCommande"><a href='{{ url_for("commandes") }}'>Passer une Commande</a></li>
+				<li class="listeliens"><a href='{{ url_for("stock") }}'>Affihage Stock</a></li>
+				<li class="listeliens"><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
+				<li class="listeliens"><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
 			</ul>
 		</div>
 	</section>
