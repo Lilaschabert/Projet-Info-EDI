@@ -15,12 +15,48 @@ li{
 h2{
 	text-transform: uppercase;
 	text-align:center;
-	padding-top: 30px;
 	font-size: 2em;
 }
 a{
 	text-decoration:none;
 	color: black;
+}
+#mainBody{
+	background-color: #FFFAE1;
+	width: 100%;
+	min-height: 260px;
+	padding: 10px 0px;
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+.flashes{
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+
+/* ***************STOCKS**************** */
+#stock{
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+input.stock-input{
+	font-size: 13px;
+	font-family: Georgia, serif;
+	width: auto;
+	text-align: center;
+	margin: auto 10px;
+	border:none;
+	padding: 4px 10px;
+}
+
+#date-input{
+	width: auto;
+	text-align:center;
 }
 
 /* ***************NAVBAR**************** */
@@ -34,6 +70,7 @@ nav{
 	opacity: 0.9;
 }
 header li{
+	font-family: Georgia, serif;
 	float:right;
 	font-size:1.2em;
 	text-decoration:none;
@@ -53,9 +90,9 @@ header li{
 
 #imagePrincipale{
 	padding-top: 60px;
-	background: url(image-principale.JPG) no-repeat fixed 50% 50%;
+	background: url('image-principale.JPG') no-repeat fixed 50% 50%;
 	background-size:cover;
-	height:799px
+	height:500px
 	
 }
 
@@ -64,7 +101,7 @@ h1{
 	text-align:center;
 	color:antiquewhite;
 	font-size:6em;
-	margin-top:100px;
+	margin:64px 0px;
 	text-shadow:1px 3px 2px black;
 	
 }
@@ -86,16 +123,17 @@ h3{
 
 #presentation{
 	background-color: #FFFAE1;
-	padding:10px 0px 100px 0;
+	margin: 5px 0px 30px 0;
 }
 #textIntro{
-	padding: 0px 20%;
+	padding: 0px;
 }
 #lesEntreprises{
 	display:flex;
-	flex-wrap:wrap;
-	justify-content:space-between;
-	padding: 30px 10%;	
+	justify-content:center;
+}
+.imagesEntreprises{
+	padding: 0px 10px;
 }
 .imagesEntreprises h4{
 	font-family:'Dancing Script',cursive;
@@ -117,19 +155,21 @@ h3{
 }
 .listeliens{
 	text-align:center;
-	font-size: 1.5 em;
+	font-size: 1.5em;
 }
 /* *************** tableau **************** */
 table.cinereousTable {
   font-family: Georgia, serif;
   border: 6px solid #FFFAE1;
   background-color: #FFFAE1;
-  width: 75%;
+  width: auto;
   text-align: center;
+  margin: auto;
 }
 table.cinereousTable td, table.cinereousTable th {
   border: 2px solid #948473;
   padding: 4px 10px;
+  max-width: 200px;
 }
 table.cinereousTable tbody td {
   font-size: 13px;
@@ -171,46 +211,49 @@ table.cinereousTable tfoot td {
 
 /* *************** liens **************** */
 #liens{
-	height:1400px;
-	background-color::#f1f2f6;
+	background-color:#f1f2f6;
 	padding: 1px 2px;
-}
-#liens h2{
-	padding-top: 60px;
+	width: 80%;
 }
 #commande{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien2{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien3{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #lien4{
-	background:url(image a inserer.JPG);
+	background:url('image a inserer.JPG');
 }
 #liens li{
-	margin:65px 100px 0 100px;
+	margin:30px 75px 45px 75px;
 	height:226px;
-	width:55%;
-	max-width:550px;
+	width:45%;
+	max-width:450px;
 	float:left;
 	box-shadow: 6px 6px 28px -1px rgba(0,0,0,0.75)
+}
+
+#liens .lien-droite{
+	float:right;
 }
 #liens p{
 	height:45px;
 	width:235px;
+	margin-top: 50px;
+	margin-right: -180px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+.lien-gauche p{
 	background-color:#01DF74;
 	float:right;
-	margin:50px -180px 0 0;
-	text-align: center;
+	margin-left: 0px;
 	box-shadow: 4px 4px 0 1px rgba(90,161,43,1);
 }
-#liens #lien2,#liens #lien4{
-	float:right;
-}
-#lien2 p,#lien4 p{
+.lien-droite p{
 	float:left;
 	background-color: cyan;
 	margin-left:-180px;
@@ -224,10 +267,11 @@ footer{
 	color:#FFFAE1;
 	padding: 20px 0 10px 0;
 	text-align:center;
+	width: 100%;
 }
 form{
 	margin: 0 auto;
-	max-width: 900px;
+	max-width: 75%;
 }
 input,textarea,button{
 	border:none;
@@ -243,7 +287,7 @@ tetarea{
 }
 button{
 	font-size:1.5em;
-	background-color:#FFFAE1.
+	background-color:#FFFAE1;
 }
 button:hover{
 	background-color:#e55039;
@@ -256,11 +300,12 @@ button:hover{
 	height:1px;
 	width:75%;
 	background-color:#FFFAE1;
-	margin:60px auto;
+	margin:25px auto;
 }
 #copyrightEtIcons{
 	display:flex;
-	margin-bottom:209x;
+	align-items:center;
+	margin-bottom:4px;
 	padding:0 10%;
 }
 #copyright{
@@ -271,6 +316,7 @@ button:hover{
 #icons{
 	width:50%;
 	text-align:right;
+	height: 25px;
 }
 
 	

@@ -12,9 +12,11 @@
 	<header>
 		<nav>
 			<ul>
-				<li id="logo"><a href="#">Prau'G INFO</a></li>
-				<li id="nousContacter"><a href="#">Nous Contacter</a></li>
-				<li>PouPiPou</li>
+				<li id="logo"><a href='{{ url_for("index") }}'>Prau'G INFO</a></li>
+				<li><a href='{{ url_for("agiLOG") }}'>agiLOG</a></li>
+				<li><a href='{{ url_for("agiLEAN") }}'>agiLEAN</a></li>
+				<li><a href='{{ url_for("agiPART") }}'>agiPART</a></li>
+				<li><a href='{{ url_for("agiGREEN") }}'>agiGREEN</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -22,6 +24,7 @@
 	{% block content %}{% endblock %}
 
 	<footer>
+		<!--
 		<h2>Contactez-nous</h2>
 		<form>
 			<input placeholder="Nom">
@@ -29,6 +32,7 @@
 			<textarea placeholder = "Votre message"></textarea>
 			<button>Envoyer</button>
 		</form>
+		-->
 		<div id ="deuxiemeTrait"></div>
 		<div id ="copyrightEtIcons">
 			<div id = "copyright">
@@ -36,9 +40,7 @@
 				<span>MONTOYA</span>
 			</div>
 			<div id = "icons">
-				<a href = "http://www.twitter.fr"><i class = "fa fa-twitter"></i></a>
-				<a href = "http://www.facebook.fr"><i class = "fa fa-facebook"></i></a>
-				<a href = "http://www.instagram.com"><i class = "fa fa-instagram"></i></a>
+				<img src='{{ url_for("static", filename="AM beige.png") }}' alt = "am trad'ss"  width="32" height="32">
 			</div>
 		</div>
 	</footer>

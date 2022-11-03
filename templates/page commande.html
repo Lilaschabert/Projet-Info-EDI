@@ -5,49 +5,48 @@
 	<div id = "premierTrait"></div>
 	<h3>Commande</h3>
 </div>
-
-		<section id = "presentation">
-			<div id = "textIntro">	
-			<h2>Passer Commande</h2>	
-			</div>
-		
-		<div class ="ref">
-			<section id="stock">
-				<form>
-					<input name="name" type="text" value="Référence" /> 
-				
-					<select>
-						<option selected="selected" value="1">CCF</option>
-						<option value="2">CCO</option>
-						<option value="3">CLF</option>
-						<option value="4">CL0</option>
-					</select>
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+		<h2>Passer Commande</h2>
 		</div>
-				<div class ="formulaire">
-					<fieldset>
-						<legend>Choisissez votre option:</legend>
 
-						<div>
-							<input type="checkbox" id="Antenne" name="Antenne" checked>
-							<label for="Antenne">Antenne</label>
-						</div>
+	<div class ="ref">
+		<section id="stock">
+			<form>
+				<input name="name" type="text" value="Référence" />
 
-						<div>
-							<input type="checkbox" id="Crochet" name="Crochet" checked>
-							<label for="Crochet">Crochet</label>
-						</div>
-						<div>
-							<input type="checkbox" id="Attelage" name="Attelage" checked>
-							<label for="Attelage">Attelage</label>
-						</div>
+				<select>
+					<option selected="selected" value="1">CCF</option>
+					<option value="2">CCO</option>
+					<option value="3">CLF</option>
+					<option value="4">CL0</option>
+				</select>
+	</div>
+			<div class ="formulaire">
+				<fieldset>
+					<legend>Choisissez votre option:</legend>
+
+					<div>
+						<input type="checkbox" id="Antenne" name="Antenne" checked>
+						<label for="Antenne">Antenne</label>
 					</div>
-					<div class ="but">
-					<button type="submit" value="Submit">Submit</button>
-					</div>
-				</fieldset>
 
-			</form>
-		
-		
-		</section>
+					<div>
+						<input type="checkbox" id="Crochet" name="Crochet" checked>
+						<label for="Crochet">Crochet</label>
+					</div>
+					<div>
+						<input type="checkbox" id="Attelage" name="Attelage" checked>
+						<label for="Attelage">Attelage</label>
+					</div>
+				</div>
+				<div class ="but">
+				<button type="submit" value="Submit">Submit</button>
+				</div>
+			</fieldset>
+
+		</form>
+	</section>
+</div>
 {% endblock %}
