@@ -10,7 +10,8 @@
 	<section id = "presentation">
 		<div id = "textIntro">
 			<h2>Stock</h2>
-			<li id="lienStock" class="listeliens"><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
+			<li class="listeliens"><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
+			<li class="listeliens"><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
 		</div>
 	</section>
 

@@ -96,12 +96,23 @@ def init_stock():
 
 @app.route('/commande_pieces', methods=['GET', 'POST'])
 def commande_pieces():
+    """Affiche toutes les pièces dont le stock fictif (stock réel+stock en commande) est en dessus du seuil de commande
+    La case de la quantité à commander est pré-rempli avec le delta entre le stock fictif et le niveau de recompletion
+    On peut générer la page pour commander toute les pièces (ou partie en mettant 'None' pour les pièces que l'on ne veut pas commander)
+    en rajoutant ?forcer=True à la fin de l'URL"""
     title = "Commande de pièces par AgiLog"
-    liste_stock = affichage_stock_commande()
-    liste_entete = ["Désignation","Code article", "Fournisseur","Stock","Seuil de commande","Niveau de recomplétion"]
-    liste_case   = ["designation","code_article", "nom",        "stock","seuil_commande","niveau_recompletion"]
+
+    liste_entete = ["Désignation","Code article", "Fournisseur","Stock","Stock fictif","Seuil de commande","Niveau de recomplétion"]
+    liste_case   = ["designation","code_article", "nom",        "stock","stock_fictif","seuil_commande","niveau_recompletion"]
     liste_entete_input = ["Quantité à commander"]
     liste_case_input   = ["commande_default"]
+
+    filtre = True
+    if request.method == 'GET':
+        forcer = request.args.get("forcer")
+        if forcer == "True":
+            filtre=False
+    liste_stock = affichage_stock_commande(filtre=filtre)
     if request.method == 'POST':
         liste_code_article=[piece["code_article"] for piece in liste_stock]
         dict_pieces={}

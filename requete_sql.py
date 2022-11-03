@@ -133,12 +133,18 @@ def affichage_stock():
     conn, cur = connection_bdd()
     querry = """SELECT pieces.id,designation,code_article,nom,stock,seuil_commande,delai,niveau_recompletion FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur"""
-    cur.execute(querry+";")
+    cur.execute(querry + ";")
     lignes = cur.fetchall()
     conn.close()
     return lignes
 
-def affichage_stock_commande():
+
+def affichage_stock_commande(filtre=True):
+    # table_stock_fictif est une table intermediaire qui permet de savoir le stock dans l'entrepot + les quantités en livraison pour chaque pièce
+    # il faut créer une table intermedaire avec un UNION sinon elle ne contient que les pièces qui sont en commande
+    filtre_querry=""
+    if filtre:
+        filtre_querry="WHERE stock_fictif<=seuil_commande"
     conn, cur = connection_bdd()
     querry = """SELECT designation,code_article,nom,stock,stock_fictif,seuil_commande,niveau_recompletion,(niveau_recompletion-stock_fictif) as commande_default FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur
@@ -149,12 +155,12 @@ def affichage_stock_commande():
                 UNION ALL
                 SELECT id,stock FROM pieces)
             GROUP BY id_piece) as table_stock_fictif
-        ON table_stock_fictif.id_piece=pieces.id
-        WHERE stock_fictif<=seuil_commande ORDER BY nom;"""
+        ON table_stock_fictif.id_piece=pieces.id {} ORDER BY nom;""".format(filtre_querry)
     cur.execute(querry)
     lignes = cur.fetchall()
     conn.close()
     return lignes
+
 
 def sql_init_stock(dict_pieces):
     """<dict_pieces> est un dictionnaire avec pour clé l'id des pièces',
@@ -164,10 +170,10 @@ def sql_init_stock(dict_pieces):
     for id_piece, data in dict_pieces.items():
         print(id_piece)
         print(data)
-        liste_case=[ str(cle) for cle in data.keys()]
-        query="UPDATE pieces SET "+"=?,".join(liste_case)+"=? WHERE id = ?;"
-        data_query=tuple([data[case] for case in liste_case]+[str(id_piece)])
-        cur.execute(query,data_query)
+        liste_case = [str(cle) for cle in data.keys()]
+        query = "UPDATE pieces SET " + "=?,".join(liste_case) + "=? WHERE id = ?;"
+        data_query = tuple([data[case] for case in liste_case] + [str(id_piece)])
+        cur.execute(query, data_query)
     conn.commit()
     conn.close()
     return True
