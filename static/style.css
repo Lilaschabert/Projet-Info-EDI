@@ -59,6 +59,17 @@ input.stock-input{
 	text-align:center;
 }
 
+/* *********HISTORIQUE COMMANDE********* */
+#commandeTable td{
+	border-width: 1px 0px;
+}
+#commandeTable{
+	border-spacing: 1px 0;
+}
+#commandeTable tr:last-child td{
+	border-width: 1px 0px 2px 0px;
+}
+
 /* ***************NAVBAR**************** */
 nav{
 	top:0px;
@@ -190,6 +201,9 @@ table.cinereousTable thead th {
 }
 table.cinereousTable thead th:first-child {
   border-left: none;
+}
+table.cinereousTable thead th:last-child {
+  border-right: none;
 }
 
 table.cinereousTable tfoot td {
