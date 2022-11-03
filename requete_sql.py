@@ -133,6 +133,24 @@ def affichage_stock():
     conn, cur = connection_bdd()
     querry = """SELECT pieces.id,designation,code_article,nom,stock,seuil_commande,delai,niveau_recompletion FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur"""
+    cur.execute(querry+";")
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+def affichage_stock_commande():
+    conn, cur = connection_bdd()
+    querry = """SELECT designation,code_article,nom,stock,stock_fictif,seuil_commande,niveau_recompletion,(niveau_recompletion-stock_fictif) as commande_default FROM pieces
+        JOIN fournisseur ON fournisseur.id=pieces.idFournisseur
+        JOIN (SELECT id_piece,SUM(nbr_en_commande) as stock_fictif FROM(
+                SELECT id_piece,nombre_piece as nbr_en_commande FROM commande_pieces
+                    JOIN contenu_commande_pieces ON id_commande=id
+                    WHERE etat='commandee' OR etat='envoyee'
+                UNION ALL
+                SELECT id,stock FROM pieces)
+            GROUP BY id_piece) as table_stock_fictif
+        ON table_stock_fictif.id_piece=pieces.id
+        WHERE stock_fictif<=seuil_commande ORDER BY nom;"""
     cur.execute(querry)
     lignes = cur.fetchall()
     conn.close()

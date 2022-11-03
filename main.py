@@ -94,6 +94,37 @@ def init_stock():
                            liste_case=liste_case,liste_entete_input=liste_entete_input,liste_case_input=liste_case_input)
 
 
+@app.route('/commande_pieces', methods=['GET', 'POST'])
+def commande_pieces():
+    title = "Commande de pièces par AgiLog"
+    liste_stock = affichage_stock_commande()
+    liste_entete = ["Désignation","Code article", "Fournisseur","Stock","Seuil de commande","Niveau de recomplétion"]
+    liste_case   = ["designation","code_article", "nom",        "stock","seuil_commande","niveau_recompletion"]
+    liste_entete_input = ["Quantité à commander"]
+    liste_case_input   = ["commande_default"]
+    if request.method == 'POST':
+        liste_code_article=[piece["code_article"] for piece in liste_stock]
+        dict_pieces={}
+        for code_article in liste_code_article:
+            value=request.form[str(code_article)]
+            if value!="None":
+                try:
+                    value=int(value)
+                except:
+                    flash("La quantité à commander doit être un entier (ou 'None')")
+                    return redirect(url_for('commande_pieces'))
+                dict_pieces[code_article]=value
+        date_commande=request.form["date"]
+        try:
+            passer_commande(dict_pieces,date_commande)
+            flash("Commande(s) envoyée(s)!")
+        except:
+            flash("Problème lors de la commande")
+        return redirect(url_for('commande_pieces'))
+    return render_template('page commande pieces.html', title=title, liste_stock=liste_stock, liste_entete=liste_entete,
+                           liste_case=liste_case,liste_entete_input=liste_entete_input,liste_case_input=liste_case_input)
+
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------

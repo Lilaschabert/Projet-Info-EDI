@@ -54,6 +54,10 @@ input.stock-input{
 	padding: 4px 10px;
 }
 
+#date-input{
+	width: auto;
+	text-align:center;
+}
 
 /* ***************NAVBAR**************** */
 nav{
