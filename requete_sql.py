@@ -74,6 +74,21 @@ def liste_pieces_commande(id_commande):
     return lignes
 
 
+def sql_detail_commande(id_commande):
+    """permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
+    liste_pieces=liste_pieces_commande(id_commande)
+    conn, cur = connection_bdd()
+    querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
+    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
+    WHERE commande_pieces.id='{}' ;""".format(str(id_commande))
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    if len(lignes)==1:
+        return lignes[0],liste_pieces
+    else:
+        return [],[]
+
 def change_etat_commande_recu(id_commande, etat, date_validation):
     """Requete pour valider/invalider une commande reçue par AgiLog"""
     if not (etat in ["validee", "invalidee"]):

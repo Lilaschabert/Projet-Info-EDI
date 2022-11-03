@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div id = "imagePrincipale">
+	<h1>{{entite}}</h1>
+	<div id = "premierTrait"></div>
+	<h3>Historique des commandes</h3>
+</div>
+
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+			<h2>Détail de la commande {{donnee_cmd["id"]}}</h2>
+		</div>
+	</section>
+
+	<section id="stock">
+		<table class="cinereousTable" id="commandeTable">
+			<thead>
+				<tr>
+					{% for entete in liste_noms_entete %}
+					<th>{{entete}}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for piece in liste_pieces %}
+					<tr>
+						{% for case in liste_noms_case %}
+						<td>{{piece[case]}}</td>
+						{% endfor%}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+</div>
+{% endblock %}

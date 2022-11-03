@@ -20,25 +20,25 @@ def index():
     return render_template('index.html', title=title)
 
 
-@app.route('/agiGREEN')
+@app.route('/AgiGreen')
 def agiGREEN():
     title = "AgiGreen"
     return render_template('page agiGREEN.html', title=title)
 
 
-@app.route('/agiLEAN')
+@app.route('/AgiLean')
 def agiLEAN():
     title = "AgiLean"
     return render_template('page agiLEAN.html', title=title)
 
 
-@app.route('/agiLOG')
+@app.route('/AgiLog')
 def agiLOG():
     title = "AgiLog"
     return render_template('page agiLOG.html', title=title)
 
 
-@app.route('/agiPART')
+@app.route('/AgiPart')
 def agiPART():
     title = "AgiPart"
     return render_template('page agiPART.html', title=title)
@@ -142,7 +142,7 @@ def commande_pieces():
                            liste_case_input=liste_case_input)
 
 
-@app.route('/historique-commandes/<string:entite>')
+@app.route('/<string:entite>/historique-commandes')
 def historique(entite):
     if entite == "AgiLog":
         nom_fournisseur = ""
@@ -155,6 +155,17 @@ def historique(entite):
     liste_noms_case   = ["id","nom",         "etat","date_commande",   "date_validation"]
     return render_template('page historique commande.html', title=title, liste_commandes=liste_commandes,
                            liste_noms_entete=liste_noms_entete,
+                           liste_noms_case=liste_noms_case,entite=entite)
+
+
+@app.route('/<string:entite>/commande/<int:id_cmd>')
+def detail_commande(entite,id_cmd):
+    title = "Commande "+str(id_cmd)
+    donnee_cmd, liste_pieces = sql_detail_commande(id_cmd)
+    liste_noms_entete = ["Désignation","Code article","Nombre de pièces"]
+    liste_noms_case   = ["designation","code_article","nombre_piece"]
+    return render_template('page detail commande.html', title=title, liste_pieces=liste_pieces,
+                           liste_noms_entete=liste_noms_entete,donnee_cmd=donnee_cmd,
                            liste_noms_case=liste_noms_case,entite=entite)
 
 
