@@ -3,18 +3,18 @@
 <div id = "imagePrincipale">
 	<h1>{{entite}}</h1>
 	<div id = "premierTrait"></div>
-	<h3>Historique des commandes</h3>
+	<h3>Détail de la commande {{donnee_cmd["id"]}}</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-			<h2>Détail de la commande {{donnee_cmd["id"]}}</h2>
+			<h2></h2>
 		</div>
 	</section>
 
-	<section id="stock">
-		<table class="cinereousTable" id="commandeTable">
+	<section>
+		<table class="cinereousTable" id="detailCommandeTable">
 			<thead>
 				<tr>
 					{% for entete in liste_noms_entete %}

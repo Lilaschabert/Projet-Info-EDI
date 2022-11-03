@@ -14,7 +14,7 @@
 	</section>
 
 	<section id="stock">
-		<table class="cinereousTable" id="commandeTable">
+		<table class="cinereousTable" id="listeCommandeTable">
 			<thead>
 				<tr>
 					{% for entete in liste_noms_entete %}
@@ -26,7 +26,7 @@
 				{% for commande in liste_commandes %}
 					<tr>
 						{% for case in liste_noms_case %}
-						<td>{{commande[case]}}</td>
+						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{commande[case]}}</a></td>
 						{% endfor%}
 					</tr>
 				{% endfor %}

@@ -60,14 +60,23 @@ input.stock-input{
 }
 
 /* *********HISTORIQUE COMMANDE********* */
-#commandeTable td{
+
+#listeCommandeTable td,#detailCommandeTable td{
 	border-width: 1px 0px;
 }
-#commandeTable{
+#listeCommandeTable,#detailCommandeTable{
 	border-spacing: 1px 0;
 }
-#commandeTable tr:last-child td{
+#listeCommandeTable tr:last-child td,#detailCommandeTable tr:last-child td{
 	border-width: 1px 0px 2px 0px;
+}
+#listeCommandeTable td{
+	padding: 0px;
+}
+.lienCommande{
+	display: flex;
+	padding: 4px 10px;
+	justify-content: center;
 }
 
 /* ***************NAVBAR**************** */
@@ -180,7 +189,7 @@ table.cinereousTable {
 table.cinereousTable td, table.cinereousTable th {
   border: 2px solid #948473;
   padding: 4px 10px;
-  max-width: 200px;
+  max-width: 175px;
 }
 table.cinereousTable tbody td {
   font-size: 13px;
