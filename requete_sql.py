@@ -13,10 +13,11 @@ def connection_bdd():
 def historique_commande(nom_fournisseur=""):
     """Requetes pour les pages d'historique des commandes"""
     conn, cur = connection_bdd()
-    querry = """SELECT id,date_commande,date_validation,etat FROM commande_pieces"""
+    querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
+    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur"""
     if nom_fournisseur != "":
-        querry += "JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur WHERE fournisseur.nom=" + nom_fournisseur
-    cur.execute(querry + ";")
+        querry += " WHERE fournisseur.nom='" + nom_fournisseur +"'"
+    cur.execute(querry + " ORDER BY date_commande;")
     lignes = cur.fetchall()
     conn.close()
     return lignes
@@ -50,7 +51,7 @@ def expedition_commande(id_commande):
 
 # page validations des receptions de commandes
 def commandes_pieces_recu():
-    """Requete pour renvoyer la listes des commandes reçues par AgiLog, non encore validée/invalidée"""
+    """Requete pour renvoyer la listes des id des commandes reçues par AgiLog, non encore validée/invalidée"""
     conn, cur = connection_bdd()
     querry = """SELECT id FROM commande_pieces
     WHERE etat='envoyee';"""

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div id = "imagePrincipale">
+	<h1>AgiLOG</h1>
+	<div id = "premierTrait"></div>
+	<h3>Stock</h3>
+</div>
+
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+			<h2>Stock</h2>
+			<li class="listeliens"><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
+			<li class="listeliens"><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
+		</div>
+	</section>
+
+	<section id="stock">
+		<table class="cinereousTable">
+			<thead>
+				<tr>
+					{% for entete in liste_noms_entete %}
+					<th>{{entete}}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for commande in liste_commandes %}
+					<tr>
+						{% for case in liste_noms_case %}
+						<td>{{commande[case]}}</td>
+						{% endfor%}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+</div>
+{% endblock %}
