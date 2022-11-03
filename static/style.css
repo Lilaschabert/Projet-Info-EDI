@@ -24,6 +24,7 @@ a{
 #mainBody{
 	background-color: #FFFAE1;
 	width: 100%;
+	min-height: 260px;
 	padding: 10px 0px;
 	display: flex;
 	flex-direction: column;
@@ -65,6 +66,7 @@ nav{
 	opacity: 0.9;
 }
 header li{
+	font-family: Georgia, serif;
 	float:right;
 	font-size:1.2em;
 	text-decoration:none;
@@ -149,7 +151,7 @@ h3{
 }
 .listeliens{
 	text-align:center;
-	font-size: 1.5 em;
+	font-size: 1.5em;
 }
 /* *************** tableau **************** */
 table.cinereousTable {
@@ -261,6 +263,7 @@ footer{
 	color:#FFFAE1;
 	padding: 20px 0 10px 0;
 	text-align:center;
+	width: 100%;
 }
 form{
 	margin: 0 auto;
