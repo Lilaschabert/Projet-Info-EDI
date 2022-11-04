@@ -27,7 +27,12 @@
 				{% for commande in liste_commandes %}
 					<tr>
 						{% for case in liste_noms_case %}
-						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{commande[case]}}</a></td>
+							{% if commande[case]!=None %}
+								{% set value=commande[case] %}
+							{% else %}
+								{% set value='' %}
+							{% endif %}
+							<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{value}}</a></td>
 						{% endfor%}
 						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'><button type="submit" value="Editer">Editer</button></a></td>
 					</tr>
