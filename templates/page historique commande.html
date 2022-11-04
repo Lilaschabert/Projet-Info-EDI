@@ -20,6 +20,7 @@
 					{% for entete in liste_noms_entete %}
 					<th>{{entete}}</th>
 					{% endfor %}
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,6 +29,7 @@
 						{% for case in liste_noms_case %}
 						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{commande[case]}}</a></td>
 						{% endfor%}
+						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'><button type="submit" value="Editer">Editer</button></a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

@@ -79,6 +79,24 @@ input.stock-input{
 	justify-content: center;
 }
 
+#listeCommandeTable button{
+	border:none;
+	width:100%;
+	padding:4px 10px;
+	margin: 1px;
+	font-family:'Georgia', serif;
+	border-radius:8px;
+	font-size:1em;
+	background-color:#FFFAE1;
+}
+#listeCommandeTable button:hover{
+	background-color:#e55039;
+	color:#FFFAE1;
+	cursor:pointer;
+	transition: 0.2s ease-in-out
+
+}
+
 /* ***************NAVBAR**************** */
 nav{
 	top:0px;
