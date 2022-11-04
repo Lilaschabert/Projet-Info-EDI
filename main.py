@@ -157,8 +157,44 @@ def historique(entite):
                            liste_noms_case=liste_noms_case, entite=entite)
 
 
-@app.route('/<string:entite>/commande/<int:id_cmd>')
+@app.route('/<string:entite>/commande/<int:id_cmd>', methods=['GET', 'POST'])
 def detail_commande(entite, id_cmd):
+    if request.method == 'POST':
+        if entite in ["AgiLog"]:
+            etat = request.form["etat"]
+            if etat == "Valider":
+                etat = "validee"
+            elif etat == "":
+                etat = "Invalider"
+            else:
+                flash("Etat incorect")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+
+            date_validation = request.form["date"]
+            resultat = change_etat_commande_recu(id_cmd, etat, date_validation)
+            if resultat == "etat incorrect":
+                flash("Etat incorect")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+            if resultat:
+                flash("Etat confirmé!")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+            else:
+                flash("Erreur dans la modification de l'état")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+
+        elif entite in ["AgiGreen","AgiPart"]:
+            etat = request.form["etat"]
+            if etat != "Envoyer":
+                flash("Etat incorect")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+            resultat = expedition_commande(id_cmd)
+            if resultat:
+                flash("Etat confirmé!")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+            else:
+                flash("Erreur dans la modification de l'état")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+
     title = "Commande " + str(id_cmd)
     donnee_cmd, liste_pieces = sql_detail_commande(id_cmd)
     liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
