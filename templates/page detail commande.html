@@ -15,7 +15,7 @@
 					{% endif %}
 			{% endfor %}
 
-			{% if entite=="AgiLog" and donnee_cmd["etat"]=="envoyee" %}
+			{% if (entite=="AgiLog" and donnee_cmd["etat"]=="envoyee") or entite=="admin" %}
 				<form method="post" class="form-etat-cmd">
 					<p>Réception de la commande:</p>
 					<input type="text" name='date' value='' placeholder="date de reception"/>
@@ -26,13 +26,23 @@
 				</form>
 			{% endif %}
 
-			{% if entite==donnee_cmd["nom"] and donnee_cmd["etat"]=="commandee" %}
+			{% if (entite==donnee_cmd["nom"] and donnee_cmd["etat"]=="commandee") or entite=="admin" %}
 				<form method="post" class="form-etat-cmd">
 					<input type="submit" name='etat' value="Envoyer"/>
 				</form>
 			{% endif %}
 		</div>
 	</section>
+
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
 
 	<section>
 		<table class="cinereousTable" id="detailCommandeTable">

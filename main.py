@@ -160,34 +160,22 @@ def historique(entite):
 @app.route('/<string:entite>/commande/<int:id_cmd>', methods=['GET', 'POST'])
 def detail_commande(entite, id_cmd):
     if request.method == 'POST':
-        if entite in ["AgiLog"]:
+        if entite in ["AgiLog","AgiPart","AgiGreen","admin"]:
             etat = request.form["etat"]
             if etat == "Valider":
                 etat = "validee"
-            elif etat == "":
-                etat = "Invalider"
-            else:
+            elif etat == "Invalider":
+                etat = "invalidee"
+            elif etat != "Envoyer":
                 flash("Etat incorect")
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
 
-            date_validation = request.form["date"]
-            resultat = change_etat_commande_recu(id_cmd, etat, date_validation)
-            if resultat == "etat incorrect":
-                flash("Etat incorect")
-                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
-            if resultat:
-                flash("Etat confirmé!")
-                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+            if etat in ["validee","invalidee"]:
+                date_validation = request.form["date"]
+                resultat = change_etat_commande_recu(id_cmd, etat, date_validation)
             else:
-                flash("Erreur dans la modification de l'état")
-                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
+                resultat = expedition_commande(id_cmd)
 
-        elif entite in ["AgiGreen","AgiPart"]:
-            etat = request.form["etat"]
-            if etat != "Envoyer":
-                flash("Etat incorect")
-                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
-            resultat = expedition_commande(id_cmd)
             if resultat:
                 flash("Etat confirmé!")
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))

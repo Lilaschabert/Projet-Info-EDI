@@ -92,7 +92,7 @@ def sql_detail_commande(id_commande):
 def change_etat_commande_recu(id_commande, etat, date_validation):
     """Requete pour valider/invalider une commande reçue par AgiLog"""
     if not (etat in ["validee", "invalidee"]):
-        return "etat incorrect"
+        return False
     try:
         conn, cur = connection_bdd()
         cur.execute("UPDATE commande_pieces SET etat=?,date_validation=? WHERE id = ?",
