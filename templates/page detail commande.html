@@ -18,7 +18,11 @@
 			{% if (entite=="AgiLog" and donnee_cmd["etat"]=="envoyee") or entite=="admin" %}
 				<form method="post" class="form-etat-cmd">
 					<p>Réception de la commande:</p>
-					<input type="text" name='date' value='' placeholder="date de reception"/>
+					{% if donnee_cmd["date_validation"]!=None %}
+						<input type="text" name='date' value='{{donnee_cmd["date_validation"]}}' placeholder="date de reception"/>
+					{% else %}
+						<input type="text" name='date' value='' placeholder="date de reception"/>
+					{% endif %}
 					<div>
 						<input type="submit" name='etat' value="Valider"/>
 						<input type="submit" name='etat' value="Invalider"/>
