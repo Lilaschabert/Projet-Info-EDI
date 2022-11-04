@@ -150,7 +150,6 @@ def historique(entite):
         nom_fournisseur = entite
     title = "Historique "+entite
     liste_commandes = historique_commande(nom_fournisseur=nom_fournisseur)
-    print(liste_commandes)
     liste_noms_entete = ["id", "Fournisseur","Etat","Date de commande","Date de validation"]
     liste_noms_case   = ["id","nom",         "etat","date_commande",   "date_validation"]
     return render_template('page historique commande.html', title=title, liste_commandes=liste_commandes,

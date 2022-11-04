@@ -17,7 +17,7 @@ def historique_commande(nom_fournisseur=""):
     JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur"""
     if nom_fournisseur != "":
         querry += " WHERE fournisseur.nom='" + nom_fournisseur +"'"
-    cur.execute(querry + " ORDER BY date_commande;")
+    cur.execute(querry + " ORDER BY etat ASC, date_commande;")
     lignes = cur.fetchall()
     conn.close()
     return lignes
