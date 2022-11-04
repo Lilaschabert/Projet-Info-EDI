@@ -9,7 +9,28 @@
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-			<h2></h2>
+			{% for key, value in dict_donnee.items() %}
+					{% if donnee_cmd[key]!=None %}
+						<p>{{value}}: {{donnee_cmd[key]}}</p>
+					{% endif %}
+			{% endfor %}
+
+			{% if entite=="AgiLog" and donnee_cmd["etat"]=="envoyee" %}
+				<form method="post" class="form-etat-cmd">
+					<p>Réception de la commande:</p>
+					<input type="text" name='date' value='' placeholder="date de reception"/>
+					<div>
+						<input type="submit" name='etat' value="Valider"/>
+						<input type="submit" name='etat' value="Invalider"/>
+					</div>
+				</form>
+			{% endif %}
+
+			{% if entite==donnee_cmd["nom"] and donnee_cmd["etat"]=="commandee" %}
+				<form method="post" class="form-etat-cmd">
+					<input type="submit" name='etat' value="Envoyer"/>
+				</form>
+			{% endif %}
 		</div>
 	</section>
 

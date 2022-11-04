@@ -163,9 +163,16 @@ def detail_commande(entite, id_cmd):
     donnee_cmd, liste_pieces = sql_detail_commande(id_cmd)
     liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
     liste_noms_case = ["designation", "code_article", "nombre_piece"]
-    return render_template('page detail commande.html', title=title, liste_pieces=liste_pieces,
-                           liste_noms_entete=liste_noms_entete, donnee_cmd=donnee_cmd,
-                           liste_noms_case=liste_noms_case, entite=entite)
+    dict_donnee = {
+        "date_commande": "Date de commande",
+        "date_validation": "Date de reception",
+        "etat": "Etat",
+        "nom": "Fournisseur"
+    }
+    return render_template('page detail commande.html', title=title, entite=entite,
+                           liste_pieces=liste_pieces, liste_noms_entete=liste_noms_entete,
+                           liste_noms_case=liste_noms_case,
+                           donnee_cmd=donnee_cmd, dict_donnee=dict_donnee)
 
 
 # ---------------------------------------
