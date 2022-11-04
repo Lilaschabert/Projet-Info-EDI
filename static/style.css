@@ -25,7 +25,7 @@ a{
 	background-color: #FFFAE1;
 	width: 100%;
 	min-height: 260px;
-	padding: 10px 0px;
+	padding: 10px 0;
 	display: flex;
 	flex-direction: column;
 	align-items:center;
@@ -36,6 +36,9 @@ a{
 	font-size: 1.5em;
 }
 
+p{
+	font-size: 1.2em;
+}
 
 /* ***************STOCKS**************** */
 #stock{
@@ -45,11 +48,10 @@ a{
 }
 
 input.stock-input{
-	font-size: 13px;
+	font-size: 1em;
 	font-family: Georgia, serif;
 	width: auto;
 	text-align: center;
-	margin: auto 10px;
 	border:none;
 	padding: 4px 10px;
 }
@@ -59,15 +61,73 @@ input.stock-input{
 	text-align:center;
 }
 
+/* *********HISTORIQUE COMMANDE********* */
+
+#listeCommandeTable td,#detailCommandeTable td{
+	border-width: 1px 0;
+}
+#listeCommandeTable,#detailCommandeTable{
+	border-spacing: 1px 0;
+}
+#listeCommandeTable tr:last-child td,#detailCommandeTable tr:last-child td{
+	border-width: 1px 0 2px 0;
+}
+#listeCommandeTable td{
+	padding: 0;
+}
+.lienCommande{
+	display: flex;
+	padding: 4px 10px;
+	justify-content: center;
+}
+
+#listeCommandeTable button{
+	border:none;
+	width:100%;
+	padding:4px 10px;
+	margin: 1px;
+	font-family:'Georgia', serif;
+	border-radius:8px;
+	font-size:1em;
+	background-color:#FFFAE1;
+}
+#listeCommandeTable button:hover{
+	background-color:#e55039;
+	color:#FFFAE1;
+	cursor:pointer;
+	transition: 0.2s ease-in-out
+
+}
+
+/* ***********DETAIL COMMANDE*********** */
+.form-etat-cmd{
+	width: 100%;
+	max-width: 100%;
+	text-align:center;
+	margin-top: 1.5em;
+}
+.form-etat-cmd div{
+	display: flex;
+}
+.form-etat-cmd input{
+	margin: 3px 10px;
+}
+
+
 /* ***************NAVBAR**************** */
 nav{
-	top:0px;
+	top:0;
 	overflow:hidden;
 	background-color:#FF2A00;
 	position:fixed;
 	width:100%;
-	height: 60px;
+	height: 4em;
 	opacity: 0.9;
+	display:flex;
+	align-items: center;
+}
+nav ul{
+	width: 100%;
 }
 header li{
 	font-family: Georgia, serif;
@@ -101,7 +161,7 @@ h1{
 	text-align:center;
 	color:antiquewhite;
 	font-size:6em;
-	margin:64px 0px;
+	margin:64px 0;
 	text-shadow:1px 3px 2px black;
 	
 }
@@ -123,17 +183,21 @@ h3{
 
 #presentation{
 	background-color: #FFFAE1;
-	margin: 5px 0px 30px 0;
+	margin: 5px 0 30px 0;
+	min-width: 20%;
 }
 #textIntro{
-	padding: 0px;
+	padding: 0;
+}
+#textIntro p{
+	margin: 0.4em 0;
 }
 #lesEntreprises{
 	display:flex;
 	justify-content:center;
 }
 .imagesEntreprises{
-	padding: 0px 10px;
+	padding: 0 10px;
 }
 .imagesEntreprises h4{
 	font-family:'Dancing Script',cursive;
@@ -169,10 +233,10 @@ table.cinereousTable {
 table.cinereousTable td, table.cinereousTable th {
   border: 2px solid #948473;
   padding: 4px 10px;
-  max-width: 200px;
+  max-width: 175px;
 }
 table.cinereousTable tbody td {
-  font-size: 13px;
+  font-size: 1em;
   color: #000000;
 }
 table.cinereousTable thead {
@@ -182,7 +246,7 @@ table.cinereousTable thead {
   background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
 }
 table.cinereousTable thead th {
-  font-size: 20px;
+  font-size: 1.3em;
   font-weight: bold;
   color: #F0F0F0;
   text-align: center;
@@ -191,9 +255,12 @@ table.cinereousTable thead th {
 table.cinereousTable thead th:first-child {
   border-left: none;
 }
+table.cinereousTable thead th:last-child {
+  border-right: none;
+}
 
 table.cinereousTable tfoot td {
-  font-size: 15px;
+  font-size: 1.1em;
 }
 .formulaire{
 	text-align:center;
@@ -216,16 +283,16 @@ table.cinereousTable tfoot td {
 	width: 80%;
 }
 #commande{
-	background:url('image a inserer.JPG');
+	background:url('AM.png');
 }
 #lien2{
-	background:url('image a inserer.JPG');
+	background:url('AM.png');
 }
 #lien3{
-	background:url('image a inserer.JPG');
+	background:url('AM.png');
 }
 #lien4{
-	background:url('image a inserer.JPG');
+	background:url('AM.png');
 }
 #liens li{
 	margin:30px 75px 45px 75px;
@@ -244,13 +311,13 @@ table.cinereousTable tfoot td {
 	width:235px;
 	margin-top: 50px;
 	margin-right: -180px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	text-align: center;
 }
 .lien-gauche p{
 	background-color:#01DF74;
 	float:right;
-	margin-left: 0px;
+	margin-left: 0;
 	box-shadow: 4px 4px 0 1px rgba(90,161,43,1);
 }
 .lien-droite p{
@@ -282,7 +349,7 @@ input,textarea,button{
 	font-family:'Advent Pro',sans-serif;
 	border-radius:8px;
 }
-tetarea{
+textarea{
 	height: 120px;
 }
 button{

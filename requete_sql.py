@@ -13,10 +13,11 @@ def connection_bdd():
 def historique_commande(nom_fournisseur=""):
     """Requetes pour les pages d'historique des commandes"""
     conn, cur = connection_bdd()
-    querry = """SELECT id,date_commande,date_validation,etat FROM commande_pieces"""
+    querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
+    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur"""
     if nom_fournisseur != "":
-        querry += "JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur WHERE fournisseur.nom=" + nom_fournisseur
-    cur.execute(querry + ";")
+        querry += " WHERE fournisseur.nom='" + nom_fournisseur + "'"
+    cur.execute(querry + " ORDER BY etat ASC, date_commande;")
     lignes = cur.fetchall()
     conn.close()
     return lignes
@@ -50,7 +51,7 @@ def expedition_commande(id_commande):
 
 # page validations des receptions de commandes
 def commandes_pieces_recu():
-    """Requete pour renvoyer la listes des commandes reçues par AgiLog, non encore validée/invalidée"""
+    """Requete pour renvoyer la listes des id des commandes reçues par AgiLog, non encore validée/invalidée"""
     conn, cur = connection_bdd()
     querry = """SELECT id FROM commande_pieces
     WHERE etat='envoyee';"""
@@ -73,12 +74,34 @@ def liste_pieces_commande(id_commande):
     return lignes
 
 
+def sql_detail_commande(id_commande):
+    """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
+    liste_pieces = liste_pieces_commande(id_commande)
+    conn, cur = connection_bdd()
+    querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
+    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
+    WHERE commande_pieces.id='{}' ;""".format(str(id_commande))
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    if len(lignes) == 1:
+        return lignes[0], liste_pieces
+    else:
+        return [], []
+
+
 def change_etat_commande_recu(id_commande, etat, date_validation):
     """Requete pour valider/invalider une commande reçue par AgiLog"""
     if not (etat in ["validee", "invalidee"]):
-        return "etat incorrect"
+        return False
     try:
         conn, cur = connection_bdd()
+        # modification des stocks si la commande est validée
+        if etat == "validee":
+            liste_pieces = liste_pieces_commande(id_commande)
+            for piece in liste_pieces:
+                cur.execute("UPDATE pieces SET stock=stock+? WHERE code_article = ?",
+                            (piece["nombre_piece"], piece["code_article"]))
         cur.execute("UPDATE commande_pieces SET etat=?,date_validation=? WHERE id = ?",
                     (etat, date_validation, str(id_commande)))
         conn.commit()
@@ -142,9 +165,9 @@ def affichage_stock():
 def affichage_stock_commande(filtre=True):
     # table_stock_fictif est une table intermediaire qui permet de savoir le stock dans l'entrepot + les quantités en livraison pour chaque pièce
     # il faut créer une table intermedaire avec un UNION sinon elle ne contient que les pièces qui sont en commande
-    filtre_querry=""
+    filtre_querry = ""
     if filtre:
-        filtre_querry="WHERE stock_fictif<=seuil_commande"
+        filtre_querry = "WHERE stock_fictif<=seuil_commande"
     conn, cur = connection_bdd()
     querry = """SELECT designation,code_article,nom,stock,stock_fictif,seuil_commande,niveau_recompletion,(niveau_recompletion-stock_fictif) as commande_default FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur

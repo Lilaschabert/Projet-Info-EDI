@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div id = "imagePrincipale">
+	<h1>{{entite}}</h1>
+	<div id = "premierTrait"></div>
+	<h3>Historique des commandes</h3>
+</div>
+
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+			<h2>Historique des commandes</h2>
+		</div>
+	</section>
+
+	<section id="stock">
+		<table class="cinereousTable" id="listeCommandeTable">
+			<thead>
+				<tr>
+					{% for entete in liste_noms_entete %}
+					<th>{{entete}}</th>
+					{% endfor %}
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for commande in liste_commandes %}
+					<tr>
+						{% for case in liste_noms_case %}
+							{% if commande[case]!=None %}
+								{% set value=commande[case] %}
+							{% else %}
+								{% set value='' %}
+							{% endif %}
+							<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{value}}</a></td>
+						{% endfor%}
+						<td><a class='lienCommande' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'><button type="submit" value="Editer">Editer</button></a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+</div>
+{% endblock %}

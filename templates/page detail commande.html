@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div id = "imagePrincipale">
+	<h1>{{entite}}</h1>
+	<div id = "premierTrait"></div>
+	<h3>Détail de la commande {{donnee_cmd["id"]}}</h3>
+</div>
+
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+			{% for key, value in dict_donnee.items() %}
+					{% if donnee_cmd[key]!=None %}
+						<p>{{value}}: {{donnee_cmd[key]}}</p>
+					{% endif %}
+			{% endfor %}
+
+			{% if (entite=="AgiLog" and donnee_cmd["etat"]=="envoyee") or entite=="admin" %}
+				<form method="post" class="form-etat-cmd">
+					<p>Réception de la commande:</p>
+					{% if donnee_cmd["date_validation"]!=None %}
+						<input type="text" name='date' value='{{donnee_cmd["date_validation"]}}' placeholder="date de reception"/>
+					{% else %}
+						<input type="text" name='date' value='' placeholder="date de reception"/>
+					{% endif %}
+					<div>
+						<input type="submit" name='etat' value="Valider"/>
+						<input type="submit" name='etat' value="Invalider"/>
+					</div>
+				</form>
+			{% endif %}
+
+			{% if (entite==donnee_cmd["nom"] and donnee_cmd["etat"]=="commandee") or entite=="admin" %}
+				<form method="post" class="form-etat-cmd">
+					<input type="submit" name='etat' value="Envoyer"/>
+				</form>
+			{% endif %}
+		</div>
+	</section>
+
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+
+	<section>
+		<table class="cinereousTable" id="detailCommandeTable">
+			<thead>
+				<tr>
+					{% for entete in liste_noms_entete %}
+					<th>{{entete}}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for piece in liste_pieces %}
+					<tr>
+						{% for case in liste_noms_case %}
+						<td>{{piece[case]}}</td>
+						{% endfor%}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+</div>
+{% endblock %}
