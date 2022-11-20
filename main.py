@@ -199,6 +199,17 @@ def detail_commande(entite, id_cmd):
                            donnee_cmd=donnee_cmd, dict_donnee=dict_donnee)
 
 
+@app.route('/kit/<int:id_kit>', methods=['GET', 'POST'])
+def detail_kit(id_kit):
+    donnee_kit, liste_pieces = sql_detail_kit(id_kit)
+    title = str(donnee_kit["nom"])
+    liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
+    liste_noms_case = ["designation", "code_article", "nombre_piece"]
+    return render_template('page detail kit.html', title=title,
+                           liste_pieces=liste_pieces, liste_noms_entete=liste_noms_entete,
+                           liste_noms_case=liste_noms_case, donnee_kit=donnee_kit)
+
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------
