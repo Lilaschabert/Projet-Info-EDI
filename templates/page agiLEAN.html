@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>Prau'G INFO</h1>
+	<h1>AgiLEAN</h1>
 	<div id = "premierTrait"></div>
-	<h3>C'est AgiLEAN</h3>
+	<h3>Prau'G INFO</h3>
 </div>
 
 <div id ="mainBody">
@@ -13,8 +13,8 @@
 		</div>
 		<div class = "listeliens">
 			<ul>
-				<li id="agileanlien1"><a href="#">agilean lien 1</a></li>
-				<li id="agileanlien2"><a href="#">agilean lien 2</a></li>
+				<li><a href='{{ url_for("affichage_kits") }}'>Liste des kits</a></li>
+				<li><a href='{{ url_for("creation_kit") }}'>Création d'un kit</a></li>
 			</ul>
 		</div>
 	</section>
