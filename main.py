@@ -139,7 +139,7 @@ def commande_pieces():
         return redirect(url_for('commande_pieces'))
     return render_template('page commande pieces.html', title=title, liste_stock=liste_stock, liste_entete=liste_entete,
                            liste_case=liste_case, liste_entete_input=liste_entete_input,
-                           liste_case_input=liste_case_input)
+                           liste_case_input=liste_case_input,filtre=filtre)
 
 
 @app.route('/<string:entite>/historique-commandes')

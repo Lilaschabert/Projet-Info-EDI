@@ -9,7 +9,7 @@
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-			<h2>Commande de pièces en dessous du seuil</h2>
+			<h2>Commande de pièces {% if filtre %}en dessous du seuil{% endif %}</h2>
 			<li id="lienStock" class="listeliens"><a href='{{ url_for("stock") }}'>Retour aux stocks</a></li>
 		</div>
 	</section>
@@ -45,7 +45,7 @@
 							<td>{{piece[case]}}</td>
 							{% endfor%}
 							{% for case in liste_case_input %}
-							<td> <input class="stock-input" type="text" name='{{ piece["code_article"] }}' value='{{piece[case]}}'/> </td>
+							<td> <input class="stock-input" type="text" name='{{ piece["code_article"] }}' value='{% if piece[case]!=None %} {{[piece[case],0]|max}} {% else %}0{% endif %}'/> </td>
 							{% endfor%}
 						</tr>
 					{% endfor %}
