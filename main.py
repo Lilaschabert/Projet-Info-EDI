@@ -139,7 +139,7 @@ def commande_pieces():
         return redirect(url_for('commande_pieces'))
     return render_template('page commande pieces.html', title=title, liste_stock=liste_stock, liste_entete=liste_entete,
                            liste_case=liste_case, liste_entete_input=liste_entete_input,
-                           liste_case_input=liste_case_input,filtre=filtre)
+                           liste_case_input=liste_case_input, filtre=filtre)
 
 
 @app.route('/<string:entite>/historique-commandes')
@@ -199,7 +199,39 @@ def detail_commande(entite, id_cmd):
                            donnee_cmd=donnee_cmd, dict_donnee=dict_donnee)
 
 
-@app.route('/kit/<int:id_kit>', methods=['GET', 'POST'])
+@app.route('/AgiLean/creation_kit', methods=['GET', 'POST'])
+def creation_kit():
+    title = "Création d'un kit"
+
+    liste_entete = ["Désignation", "Code article"]
+    liste_case = ["designation", "code_article"]
+    liste_entete_input = ["Quantité"]
+
+    liste_pieces = sql_pieces_existantes()
+    if request.method == 'POST':
+        liste_code_article = [piece["code_article"] for piece in liste_stock]
+        dict_pieces = {}
+        for code_article in liste_code_article:
+            value = request.form[str(code_article)]
+            if value != "None":
+                try:
+                    value = int(value)
+                except:
+                    flash("La quantité à commander doit être un entier (ou 'None')")
+                    return redirect(url_for('commande_pieces'))
+                dict_pieces[code_article] = value
+        date_commande = request.form["date"]
+        try:
+            passer_commande_pieces(dict_pieces, date_commande)
+            flash("Commande(s) envoyée(s)!")
+        except:
+            flash("Problème lors de la commande")
+        return redirect(url_for('commande_pieces'))
+    return render_template('page creation kit.html', title=title, liste_pieces=liste_pieces, liste_entete=liste_entete,
+                           liste_case=liste_case, liste_entete_input=liste_entete_input)
+
+
+@app.route('/AgiLean/kit/<int:id_kit>', methods=['GET', 'POST'])
 def detail_kit(id_kit):
     donnee_kit, liste_pieces = sql_detail_kit(id_kit)
     title = str(donnee_kit["nom"])

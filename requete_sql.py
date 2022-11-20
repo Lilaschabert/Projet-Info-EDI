@@ -190,7 +190,7 @@ def sql_init_stock(dict_pieces):
     return True
 
 
-def creation_kit(dict_nombre_pieces, nom_kit):
+def sql_creation_kit(dict_nombre_pieces, nom_kit):
     """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
     et comme valeur dans chaque case le nombre de pièces correspondant"""
     conn, cur = connection_bdd()
@@ -219,6 +219,16 @@ def creation_kit(dict_nombre_pieces, nom_kit):
         conn.commit()
     conn.close()
     return True
+
+
+def sql_pieces_existantes():
+    """Fonction pour récupérer les donnes relatives à l'affichage de stock"""
+    conn, cur = connection_bdd()
+    querry = """SELECT pieces.id,designation,code_article FROM pieces;"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
 
 
 def liste_pieces_kit(id_kit):

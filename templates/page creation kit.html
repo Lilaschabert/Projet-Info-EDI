@@ -1,15 +1,16 @@
  {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>AgiLOG</h1>
+	<h1>AgiLEAN</h1>
 	<div id = "premierTrait"></div>
-	<h3>Stock</h3>
+	<h3>Kits</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-		<h2>Initialisation des données relatives Stocks</h2>
+			<h2>Création d'un kit</h2>
+			<li id="lienStock" class="listeliens"><a href='{{ url_for("stock") }}'>Retour aux kits</a></li>
 		</div>
 	</section>
 
@@ -25,6 +26,7 @@
 
 	<form method="post">
 		<section id="tableau_pieces">
+			<input id="name-input" type="text" name='nom' value='' placeholder="nom du kit"/>
 			<table class="cinereousTable">
 				<thead>
 					<tr>
@@ -37,13 +39,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for piece in liste_stock %}
+					{% for piece in liste_pieces %}
 						<tr>
 							{% for case in liste_case %}
-							<td>{{piece[case]}}</td>
+								<td>{{piece[case]}}</td>
 							{% endfor%}
-							{% for case in liste_case_input %}
-							<td> <input class="stock-input" type="text" name='{{ piece["id"]|string+"-"+case }}' value='{{piece[case]}}'/> </td>
+							{% for case in liste_entete_input %}
+								<td> <input class="kits-input" type="text" name='{{ piece["code_article"] }}' value='0'/></td>
 							{% endfor%}
 						</tr>
 					{% endfor %}
