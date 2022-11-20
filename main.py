@@ -245,6 +245,16 @@ def detail_kit(id_kit):
                            liste_noms_case=liste_noms_case, donnee_kit=donnee_kit)
 
 
+@app.route('/AgiLean/liste-kits')
+def affichage_kits():
+    title = "Liste des kits"
+    liste_kits = sql_liste_kits()
+    liste_noms_entete = ["id", "Nom"]
+    liste_noms_case = ["id", "nom"]
+    return render_template('page liste kits.html', title=title, liste_kits=liste_kits,
+                           liste_noms_entete=liste_noms_entete,
+                           liste_noms_case=liste_noms_case)
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------

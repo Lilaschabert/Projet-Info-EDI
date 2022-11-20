@@ -3,10 +3,17 @@
 <div id = "imagePrincipale">
 	<h1>AgiLean</h1>
 	<div id = "premierTrait"></div>
-	<h3>Détail du kit "{{donnee_kit["nom"]}}"</h3>
+	<h3>Kits</h3>
 </div>
 
 <div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+			<h2>Détail du kit "{{donnee_kit["nom"]}}"</h2>
+			<li class="listeliens"><a href='{{ url_for("affichage_kits") }}'>Retour aux kits</a></li>
+		</div>
+	</section>
+
 	{% with messages = get_flashed_messages() %}
 	  {% if messages %}
 		<ul class=flashes>

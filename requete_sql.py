@@ -257,6 +257,16 @@ def sql_detail_kit(id_kit):
     else:
         return [], []
 
+
+def sql_liste_kits():
+    """Requetes pour l'affichage des kits existants"""
+    conn, cur = connection_bdd()
+    querry = """SELECT id,nom FROM kits;"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
 """
 ## AGILOG
 

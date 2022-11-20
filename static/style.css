@@ -75,7 +75,7 @@ input.stock-input,input.kits-input{
 #listeCommandeTable td{
 	padding: 0;
 }
-.lienCommande{
+.lienTable{
 	display: flex;
 	padding: 4px 10px;
 	justify-content: center;
