@@ -190,6 +190,63 @@ def sql_init_stock(dict_pieces):
     return True
 
 
+def creation_kit(dict_nombre_pieces, nom_kit):
+    """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
+    et comme valeur dans chaque case le nombre de pièces correspondant"""
+    conn, cur = connection_bdd()
+    cur.execute("SELECT id,code_article,idFournisseur FROM pieces;")
+    liste_pieces = cur.fetchall()
+    dict_id_pieces = {}
+    for piece in liste_pieces:
+        dict_id_pieces[piece['code_article']] = piece['id']
+
+    dict_nombre_pieces_id = {}
+    for code_article, nombre_pieces in dict_nombre_pieces.items():
+        if nombre_pieces >= 1:
+            dict_nombre_pieces_id[dict_id_pieces[code_article]] = nombre_pieces
+
+    cur.execute("INSERT INTO kits('nom') VALUES (?);",(nom_kit,))
+    conn.commit()
+    if len(dict_nombre_pieces_id) >= 1:
+        # cur.execute("SELECT id FROM commande_pieces WHERE date_commande=? AND etat=? AND idFournisseur=?;",(date_commande, "commandee", fournisseur['id']))
+        # id_commande = cur.fetchall()[0]['id']
+        cur.execute("SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME='kits';")
+        id_kit = cur.fetchall()[0]['SEQ']
+        for id_pieces, nombre_piece in dict_nombre_pieces_id.items():
+            cur.execute(
+                "INSERT INTO piece_kit('id_piece', 'id_kit', 'nombre_piece') VALUES (?,?,?)",
+                (str(id_pieces), str(id_kit), str(nombre_piece)))
+        conn.commit()
+    conn.close()
+    return True
+
+
+def liste_pieces_kit(id_kit):
+    """Requete pour renvoyer les pièces d'une commande définie par son id"""
+    conn, cur = connection_bdd()
+    querry = """SELECT designation,code_article,nombre_piece FROM pieces
+    JOIN piece_kit ON piece_kit.id_piece=pieces.id
+    WHERE piece_kit.id_kit=?;"""
+    cur.execute(querry, (str(id_kit),))
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+def sql_detail_kit(id_kit):
+    """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
+    liste_pieces = liste_pieces_kit(id_kit)
+    conn, cur = connection_bdd()
+    querry = """SELECT id,nom FROM kits
+    WHERE id=?;"""
+    cur.execute(querry,(str(id_kit)))
+    lignes = cur.fetchall()
+    conn.close()
+    if len(lignes) == 1:
+        return lignes[0], liste_pieces
+    else:
+        return [], []
+
 """
 ## AGILOG
 
