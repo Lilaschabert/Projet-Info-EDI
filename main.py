@@ -209,24 +209,27 @@ def creation_kit():
 
     liste_pieces = sql_pieces_existantes()
     if request.method == 'POST':
-        liste_code_article = [piece["code_article"] for piece in liste_stock]
+        liste_code_article = [piece["code_article"] for piece in liste_pieces]
         dict_pieces = {}
         for code_article in liste_code_article:
             value = request.form[str(code_article)]
-            if value != "None":
-                try:
-                    value = int(value)
-                except:
-                    flash("La quantité à commander doit être un entier (ou 'None')")
-                    return redirect(url_for('commande_pieces'))
+            try:
+                value = int(value)
+            except:
+                flash("La quantité contenue dans le kit doit être un entier postif ou nul")
+                return redirect(url_for('creation_kit'))
+            if value < 0:
+                flash("Le nombre de pièces doit être positif (ou nul)!")
+                return redirect(url_for('creation_kit'))
+            if value != 0:
                 dict_pieces[code_article] = value
-        date_commande = request.form["date"]
+        nom_kit = request.form["nom"]
         try:
-            passer_commande_pieces(dict_pieces, date_commande)
-            flash("Commande(s) envoyée(s)!")
+            sql_creation_kit(dict_pieces, nom_kit)
+            flash("Kit crée!")
         except:
-            flash("Problème lors de la commande")
-        return redirect(url_for('commande_pieces'))
+            flash("Problème lors de la création")
+        return redirect(url_for('creation_kit'))
     return render_template('page creation kit.html', title=title, liste_pieces=liste_pieces, liste_entete=liste_entete,
                            liste_case=liste_case, liste_entete_input=liste_entete_input)
 
