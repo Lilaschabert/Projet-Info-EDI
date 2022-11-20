@@ -132,7 +132,7 @@ def commande_pieces():
                 dict_pieces[code_article] = value
         date_commande = request.form["date"]
         try:
-            passer_commande(dict_pieces, date_commande)
+            passer_commande_pieces(dict_pieces, date_commande)
             flash("Commande(s) envoyée(s)!")
         except:
             flash("Problème lors de la commande")
@@ -149,7 +149,7 @@ def historique(entite):
     else:
         nom_fournisseur = entite
     title = "Historique " + entite
-    liste_commandes = historique_commande(nom_fournisseur=nom_fournisseur)
+    liste_commandes = historique_commande_pieces(nom_fournisseur=nom_fournisseur)
     liste_noms_entete = ["id", "Fournisseur", "Etat", "Date de commande", "Date de validation"]
     liste_noms_case = ["id", "nom", "etat", "date_commande", "date_validation"]
     return render_template('page historique commande.html', title=title, liste_commandes=liste_commandes,
@@ -184,7 +184,7 @@ def detail_commande(entite, id_cmd):
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd))
 
     title = "Commande " + str(id_cmd)
-    donnee_cmd, liste_pieces = sql_detail_commande(id_cmd)
+    donnee_cmd, liste_pieces = sql_detail_commande_pieces(id_cmd)
     liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
     liste_noms_case = ["designation", "code_article", "nombre_piece"]
     dict_donnee = {

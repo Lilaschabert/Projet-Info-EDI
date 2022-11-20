@@ -10,7 +10,7 @@ def connection_bdd():
 
 
 # page historique
-def historique_commande(nom_fournisseur=""):
+def historique_commande_pieces(nom_fournisseur=""):
     """Requetes pour les pages d'historique des commandes"""
     conn, cur = connection_bdd()
     querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
@@ -18,20 +18,6 @@ def historique_commande(nom_fournisseur=""):
     if nom_fournisseur != "":
         querry += " WHERE fournisseur.nom='" + nom_fournisseur + "'"
     cur.execute(querry + " ORDER BY etat ASC, date_commande;")
-    lignes = cur.fetchall()
-    conn.close()
-    return lignes
-
-
-# page commandes à expedier
-def commande_a_expedier(nom_fournisseur):
-    """Requetes pour récupérer les commandes à expedier d'un fournisseur donné"""
-    conn, cur = connection_bdd()
-    querry = """SELECT commande_pieces.id FROM commande_pieces
-    JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
-    WHERE fournisseur.nom=? AND etat='commandee'
-    """
-    cur.execute(querry, (nom_fournisseur,))
     lignes = cur.fetchall()
     conn.close()
     return lignes
@@ -50,7 +36,7 @@ def expedition_commande(id_commande):
 
 
 # page validations des receptions de commandes
-def commandes_pieces_recu():
+def commandes_recu():
     """Requete pour renvoyer la listes des id des commandes reçues par AgiLog, non encore validée/invalidée"""
     conn, cur = connection_bdd()
     querry = """SELECT id FROM commande_pieces
@@ -74,7 +60,7 @@ def liste_pieces_commande(id_commande):
     return lignes
 
 
-def sql_detail_commande(id_commande):
+def sql_detail_commande_pieces(id_commande):
     """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
     liste_pieces = liste_pieces_commande(id_commande)
     conn, cur = connection_bdd()
@@ -111,7 +97,7 @@ def change_etat_commande_recu(id_commande, etat, date_validation):
         return False
 
 
-def passer_commande(dict_nombre_pieces, date_commande):
+def passer_commande_pieces(dict_nombre_pieces, date_commande):
     """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
     et comme valeur dans chaque case le nombre de pièces correspondant"""
     conn, cur = connection_bdd()
@@ -153,6 +139,7 @@ def passer_commande(dict_nombre_pieces, date_commande):
 
 # gestion stocks
 def affichage_stock():
+    """Fonction pour récupérer les donnes relatives à l'affichage de stock"""
     conn, cur = connection_bdd()
     querry = """SELECT pieces.id,designation,code_article,nom,stock,seuil_commande,delai,niveau_recompletion FROM pieces
         JOIN fournisseur ON fournisseur.id=pieces.idFournisseur"""
@@ -163,6 +150,7 @@ def affichage_stock():
 
 
 def affichage_stock_commande(filtre=True):
+    """Fonction pour récupérer les donnes relatives au passage d'une commande de pièces"""
     # table_stock_fictif est une table intermediaire qui permet de savoir le stock dans l'entrepot + les quantités en livraison pour chaque pièce
     # il faut créer une table intermedaire avec un UNION sinon elle ne contient que les pièces qui sont en commande
     filtre_querry = ""
@@ -259,5 +247,5 @@ UPDATE commande_kits SET date_validation=date WHERE commande_kits.id == commande
 
 
 # commande={"B2*2":1,"JT":3,"P1*2":2,"P4*4":2,"P1*1":1}
-# passer_commande(commande, "test")
+# passer_commande_pieces(commande, "test")
 """
