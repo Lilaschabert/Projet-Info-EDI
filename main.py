@@ -143,51 +143,65 @@ def commande_pieces():
 
 
 @app.route('/<string:entite>/historique-commandes-<string:type_cmd>')
-def historique(entite,type_cmd):
-    if entite == "AgiLog":
-        nom_fournisseur = ""
-    else:
-        nom_fournisseur = entite
-    title = "Historique " + entite
-    liste_commandes = historique_commande_pieces(nom_fournisseur=nom_fournisseur)
-    liste_noms_entete = ["id", "Fournisseur", "Etat", "Date de commande", "Date de validation"]
-    liste_noms_case = ["id", "nom", "etat", "date_commande", "date_validation"]
+def historique(entite, type_cmd):
+    if type_cmd not in ["kit", "pieces"]:
+        return redirect(url_for('index'))
+    if type_cmd == "pieces":
+        if entite == "AgiLog":
+            nom_fournisseur = ""
+        else:
+            nom_fournisseur = entite
+        title = "Historique " + type_cmd + " " + entite
+        liste_commandes = historique_commande_pieces(nom_fournisseur=nom_fournisseur)
+        liste_noms_entete = ["id", "Fournisseur", "Etat", "Date de commande", "Date de validation"]
+        liste_noms_case = ["id", "nom", "etat", "date_commande", "date_validation"]
+    elif type_cmd == "kit":
+        title = "Historique " + type_cmd + " " + entite
+        liste_commandes = historique_commande_kits()
+        liste_noms_entete = ["id", "Etat", "Date de commande", "Date de validation"]
+        liste_noms_case = ["id", "etat", "date_commande", "date_validation"]
     return render_template('page historique commande.html', title=title, liste_commandes=liste_commandes,
                            liste_noms_entete=liste_noms_entete,
                            liste_noms_case=liste_noms_case, entite=entite, type_cmd=type_cmd)
 
 
 @app.route('/<string:entite>/commande-<string:type_cmd>/<int:id_cmd>', methods=['GET', 'POST'])
-def detail_commande(entite, id_cmd,type_cmd):
-    if type_cmd not in ["kit","pieces"]:
+def detail_commande(entite, id_cmd, type_cmd):
+    if type_cmd not in ["kit", "pieces"]:
         return redirect(url_for('index'))
-    if type_cmd=="pieces":
-        if request.method == 'POST':
-            if entite in ["AgiLog","AgiPart","AgiGreen","admin"]:
-                etat = request.form["etat"]
-                if etat == "Valider":
-                    etat = "validee"
-                elif etat == "Invalider":
-                    etat = "invalidee"
-                elif etat != "Envoyer":
-                    flash("Etat incorect")
-                    return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
 
-                if etat in ["validee","invalidee"]:
-                    date_validation = request.form["date"]
-                    resultat = change_etat_commande_recu(id_cmd, etat, date_validation)
-                else:
-                    resultat = expedition_commande(id_cmd)
+    if request.method == 'POST':
+        if entite in ["AgiLog", "AgiPart", "AgiGreen", "AgiLean", "admin"]:
+            etat = request.form["etat"]
+            if etat == "Valider":
+                etat = "validee"
+            elif etat == "Invalider":
+                etat = "invalidee"
+            elif etat != "Envoyer":
+                flash("Etat incorect")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
 
-                if resultat:
-                    flash("Etat confirmé!")
-                    return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
-                else:
-                    flash("Erreur dans la modification de l'état")
-                    return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
+            if etat in ["validee", "invalidee"]:
+                date_validation = request.form["date"]
+                if type_cmd == "pieces":
+                    resultat = change_etat_commande_pieces_recu(id_cmd, etat, date_validation)
+                if type_cmd == "kit":
+                    resultat = change_etat_commande_kit_recu(id_cmd, etat, date_validation)
+            else:
+                resultat = expedition_commande(id_cmd, type_cmd)
 
-        title = "Commande " + str(id_cmd)
+            if resultat:
+                flash("Etat confirmé!")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
+            else:
+                flash("Erreur dans la modification de l'état")
+                return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
+
+    title = "Commande " + str(id_cmd)
+    if type_cmd == "pieces":
         liste_donnee_cmd, liste_pieces = sql_detail_commande_pieces(id_cmd)
+        client = "AgiLog"
+        fournisseur = liste_donnee_cmd["nom"]
         liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
         liste_noms_case = ["designation", "code_article", "nombre_piece"]
         dict_noms_donnee = {
@@ -196,11 +210,24 @@ def detail_commande(entite, id_cmd,type_cmd):
             "etat": "Etat",
             "nom": "Fournisseur"
         }
+    if type_cmd == "kit":
+        client = "AgiLean"
+        fournisseur = "AgiLog"
+        liste_donnee_cmd, liste_pieces = sql_detail_commande_kit(id_cmd)
+        liste_noms_entete = ["Désignation", "Code article", "Nombre de pièces"]
+        liste_noms_case = ["designation", "code_article", "nombre_piece"]
+        dict_noms_donnee = {
+            "date_commande": "Date de commande",
+            "date_validation": "Date de reception",
+            "etat": "Etat",
+        }
+    if (entite==fournisseur and liste_donnee_cmd["etat"]=="commandee"):
+        flash("CCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     return render_template('page detail commande.html', title=title, entite=entite,
                            liste_pieces=liste_pieces, liste_noms_entete=liste_noms_entete,
                            liste_noms_case=liste_noms_case,
                            liste_donnee_cmd=liste_donnee_cmd, dict_noms_donnee=dict_noms_donnee,
-                           client="AgiLog", fournisseur=liste_donnee_cmd["nom"])
+                           client=client, fournisseur=fournisseur)
 
 
 @app.route('/AgiLean/creation_kit', methods=['GET', 'POST'])
@@ -258,6 +285,7 @@ def affichage_kits():
     return render_template('page liste kits.html', title=title, liste_kits=liste_kits,
                            liste_noms_entete=liste_noms_entete,
                            liste_noms_case=liste_noms_case)
+
 
 # ---------------------------------------
 # pour lancer le serveur web local Flask
