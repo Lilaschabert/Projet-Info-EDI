@@ -32,9 +32,9 @@
 							{% else %}
 								{% set value='' %}
 							{% endif %}
-							<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'>{{value}}</a></td>
+							<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"], type_cmd=type_cmd) }}'>{{value}}</a></td>
 						{% endfor%}
-						<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"]) }}'><button type="submit" value="Editer">Editer</button></a></td>
+						<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"], type_cmd=type_cmd) }}'><button type="submit" value="Editer">Editer</button></a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
