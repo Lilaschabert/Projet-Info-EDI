@@ -1,5 +1,12 @@
 import sqlite3 as lite
+from datetime import datetime
 
+
+def dateMinuteSecondes(tempsZero):
+    deltadate = datetime.now() - tempsZero
+    dateListe = str(deltadate).split(":")
+    dateStr = dateListe[1] + ":" + dateListe[2].split(".")[0]
+    return dateStr
 
 def connection_bdd():
     """Connection au fichier bdd"""

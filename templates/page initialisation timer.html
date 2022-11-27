@@ -1,0 +1,33 @@
+ {% extends "base.html" %}
+{% block content %}
+<div id = "imagePrincipale">
+	<h1>Timer</h1>
+	<div id = "premierTrait"></div>
+	<h3>initialisation</h3>
+</div>
+
+<div id ="mainBody">
+	<section id = "presentation">
+		<div id = "textIntro">
+		<h2>Initialisation du timer</h2>
+		</div>
+	</section>
+
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+
+	<form method="post">
+		<section id="bloc_reset_timer">
+			<p>{{date}}</p>
+			<input id="reset_btn" type="submit" value="Reset"/>
+		</section>
+	</form>
+</div>
+{% endblock %}

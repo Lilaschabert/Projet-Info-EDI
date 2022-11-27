@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, url_for, request, render_template, redirect, flash
 from fonction import *
+from datetime import datetime
+
+tempsZero = datetime.now()
 
 # ------------------
 # application Flask
@@ -19,6 +22,15 @@ def index():
     title = "index.LEGO"
     return render_template('index.html', title=title)
 
+
+@app.route('/init_time', methods=['GET', 'POST'])
+def init_timer():
+    global tempsZero
+    if request.method == 'POST':
+        tempsZero = datetime.now()
+    dateStr = dateMinuteSecondes(tempsZero)
+    title = "Initialisation timer"
+    return render_template('page initialisation timer.html', title=title, date=dateStr)
 
 @app.route('/AgiGreen')
 def agiGREEN():
