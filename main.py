@@ -182,16 +182,12 @@ def detail_commande(entite, id_cmd, type_cmd):
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
 
             if etat in ["validee", "invalidee"]:
-                flash("reception")
                 date_validation = request.form["date"]
                 if type_cmd == "pieces":
-                    flash("pieces")
                     resultat = change_etat_commande_pieces_recu(id_cmd, etat, date_validation)
                 if type_cmd == "kit":
-                    flash("kit")
                     resultat = change_etat_commande_kit_recu(id_cmd, etat, date_validation)
             else:
-                flash("envoie")
                 resultat = expedition_commande(id_cmd, type_cmd)
 
             if resultat:
