@@ -40,8 +40,13 @@ p{
 	font-size: 1.2em;
 }
 
+/* ***************TIMER***************** */
+#reset_btn{
+	width: 100%;
+}
+
 /* *************STOCKS/KIT************** */
-#tableau_pieces,#tableau_kits{
+#tableau_pieces,#tableau_kits,#bloc_reset_timer{
 	display: flex;
 	flex-direction: column;
 	align-items:center;
@@ -374,6 +379,7 @@ button:hover{
 	align-items:center;
 	margin-bottom:4px;
 	padding:0 10%;
+	justify-content: center;
 }
 #copyright{
 	width:50%;
