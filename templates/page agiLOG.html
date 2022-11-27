@@ -15,7 +15,8 @@
 				<li><a href='{{ url_for("stock") }}'>Affihage Stock</a></li>
 				<li><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
 				<li><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
-				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="pieces") }}'>Historique des commandes</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="pieces") }}'>Historique des commandes de pièces</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="kit") }}'>Historique des commandes de kits</a></li>
 			</ul>
 		</div>
 	</section>
