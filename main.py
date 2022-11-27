@@ -318,6 +318,7 @@ def commande_kits():
     return render_template('page commande kit.html', title=title, liste_kits=liste_kits, liste_entete=liste_entete,
                            liste_case=liste_case, liste_entete_input=liste_entete_input)
 
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------
