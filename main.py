@@ -97,7 +97,7 @@ def init_stock():
                            liste_case_input=liste_case_input)
 
 
-@app.route('/commande_pieces', methods=['GET', 'POST'])
+@app.route('/AgiLog/commande_pieces', methods=['GET', 'POST'])
 def commande_pieces():
     """Affiche toutes les pièces dont le stock fictif (stock réel+stock en commande) est en dessus du seuil de commande
     La case de la quantité à commander est prérempli avec le delta entre le stock fictif et le niveau de recompletion
@@ -182,12 +182,16 @@ def detail_commande(entite, id_cmd, type_cmd):
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
 
             if etat in ["validee", "invalidee"]:
+                flash("reception")
                 date_validation = request.form["date"]
                 if type_cmd == "pieces":
+                    flash("pieces")
                     resultat = change_etat_commande_pieces_recu(id_cmd, etat, date_validation)
                 if type_cmd == "kit":
+                    flash("kit")
                     resultat = change_etat_commande_kit_recu(id_cmd, etat, date_validation)
             else:
+                flash("envoie")
                 resultat = expedition_commande(id_cmd, type_cmd)
 
             if resultat:
@@ -221,8 +225,6 @@ def detail_commande(entite, id_cmd, type_cmd):
             "date_validation": "Date de reception",
             "etat": "Etat",
         }
-    if (entite==fournisseur and liste_donnee_cmd["etat"]=="commandee"):
-        flash("CCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     return render_template('page detail commande.html', title=title, entite=entite,
                            liste_pieces=liste_pieces, liste_noms_entete=liste_noms_entete,
                            liste_noms_case=liste_noms_case,
@@ -286,6 +288,39 @@ def affichage_kits():
                            liste_noms_entete=liste_noms_entete,
                            liste_noms_case=liste_noms_case)
 
+
+@app.route('/AgiLean/commande_kits', methods=['GET', 'POST'])
+def commande_kits():
+    title = "Commande de kit par AgiLean"
+    liste_entete = ["id", "Nom"]
+    liste_case = ["id", "nom"]
+    liste_entete_input = ["Quantité à commander"]
+    liste_kits = sql_liste_kits()
+
+    if request.method == 'POST':
+        liste_id = [kit["id"] for kit in liste_kits]
+        dict_kit = {}
+        for id_kit in liste_id:
+            value = request.form[str(id_kit)]
+            if value != "None":
+                try:
+                    value = int(value)
+                    if value < 0:
+                        flash("La quantité à commander doit être positive ou nulle")
+                        return redirect(url_for('commande_kits'))
+                except:
+                    flash("La quantité à commander doit être un entier (ou 'None')")
+                    return redirect(url_for('commande_kits'))
+                dict_kit[id_kit] = value
+        date_commande = request.form["date"]
+        try:
+            passer_commande_kits(dict_kit, date_commande)
+            flash("Commande(s) envoyée(s)!")
+        except:
+            flash("Problème lors de la commande")
+        return redirect(url_for('commande_kits'))
+    return render_template('page commande kit.html', title=title, liste_kits=liste_kits, liste_entete=liste_entete,
+                           liste_case=liste_case, liste_entete_input=liste_entete_input)
 
 # ---------------------------------------
 # pour lancer le serveur web local Flask

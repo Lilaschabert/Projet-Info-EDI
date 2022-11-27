@@ -41,7 +41,7 @@ p{
 }
 
 /* *************STOCKS/KIT************** */
-#tableau_pieces{
+#tableau_pieces,#tableau_kits{
 	display: flex;
 	flex-direction: column;
 	align-items:center;

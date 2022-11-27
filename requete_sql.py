@@ -286,6 +286,7 @@ def historique_commande_kits():
     conn.close()
     return lignes
 
+
 def liste_pieces_commande_kit(id_commande):
     """Requete pour renvoyer les pièces d'une commande de kit définie par son id"""
     conn, cur = connection_bdd()
@@ -304,15 +305,15 @@ def liste_pieces_commande_kit(id_commande):
         for pieces in liste_pieces_temp:
             if pieces["code_article"] in liste_code_existant:
                 case = dict_assoc_pieces_case[pieces["code_article"]]
-                liste_pieces[case]["nombre_piece"] += pieces["nombre_piece"]*kit["nombre_kit"]
+                liste_pieces[case]["nombre_piece"] += pieces["nombre_piece"] * kit["nombre_kit"]
             else:
                 liste_code_existant.append(pieces["code_article"])
                 liste_pieces.append({})
-                case = len(liste_pieces)-1
+                case = len(liste_pieces) - 1
                 dict_assoc_pieces_case[pieces["code_article"]] = case
-                liste_pieces[case]["designation"]  = pieces["designation"]
+                liste_pieces[case]["designation"] = pieces["designation"]
                 liste_pieces[case]["code_article"] = pieces["code_article"]
-                liste_pieces[case]["nombre_piece"] = pieces["nombre_piece"]*kit["nombre_kit"]
+                liste_pieces[case]["nombre_piece"] = pieces["nombre_piece"] * kit["nombre_kit"]
     return liste_pieces
 
 
@@ -343,13 +344,32 @@ def change_etat_commande_kit_recu(id_commande, etat, date_validation):
             for piece in liste_pieces:
                 cur.execute("UPDATE pieces SET stock=stock-? WHERE code_article = ?",
                             (piece["nombre_piece"], piece["code_article"]))
-        cur.execute("UPDATE commande_pieces SET etat=?,date_validation=? WHERE id = ?",
+        cur.execute("UPDATE commande_kits SET etat=?,date_validation=? WHERE id = ?",
                     (etat, date_validation, str(id_commande)))
         conn.commit()
         conn.close()
         return True
     except lite.Error:
         return False
+
+
+def passer_commande_kits(dict_nombre_kits, date_commande):
+    """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
+    et comme valeur dans chaque case le nombre de pièces correspondant"""
+    conn, cur = connection_bdd()
+    cur.execute("INSERT INTO commande_kits('date_commande', 'etat') VALUES (?,?);",
+                (date_commande, "commandee"))
+    conn.commit()
+    cur.execute("SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME='commande_kits';")
+    id_commande = cur.fetchall()[0]['SEQ']
+    for id_kits, nombre_kits in dict_nombre_kits.items():
+        if nombre_kits > 0:
+            cur.execute("INSERT INTO contenu_commande_kit('id_kit', 'id_commande', 'nombre_kit') VALUES (?,?,?)",
+                        (str(id_kits), str(id_commande), str(nombre_kits)))
+    conn.commit()
+    conn.close()
+    return True
+
 
 """
 ## AGILOG
