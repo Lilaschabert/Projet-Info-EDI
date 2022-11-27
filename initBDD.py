@@ -105,16 +105,16 @@ def main():
         print("création de la table commande_kits")
         cur.execute("""CREATE TABLE commande_kits(
             id   INTEGER PRIMARY KEY AUTOINCREMENT ,
-            date_commande    TIMESTAMP,
-            date_validation  TIMESTAMP,
+            date_commande    TEXT,
+            date_validation  TEXT,
             etat             TEXT)""")
 
     if "commande_pieces" not in listeTable:
         print("création de la table commande_pieces")
         cur.execute("""CREATE TABLE commande_pieces(
             id   INTEGER PRIMARY KEY AUTOINCREMENT ,
-            date_commande    TIMESTAMP,
-            date_validation  TIMESTAMP,
+            date_commande    TEXT,
+            date_validation  TEXT,
             etat             TEXT,
             idFournisseur    INTEGER UNSIGNED NOT NULL,
             FOREIGN KEY(idFournisseur) REFERENCES fournisseur(id))""")
