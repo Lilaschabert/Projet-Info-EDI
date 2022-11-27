@@ -136,7 +136,7 @@ def commande_pieces():
                     flash("La quantité à commander doit être un entier (ou 'None')")
                     return redirect(url_for('commande_pieces'))
                 dict_pieces[code_article] = value
-        date_commande = request.form["date"]
+        date_commande = dateMinuteSecondes(tempsZero)
         try:
             passer_commande_pieces(dict_pieces, date_commande)
             flash("Commande(s) envoyée(s)!")
@@ -188,7 +188,7 @@ def detail_commande(entite, id_cmd, type_cmd):
                 return redirect(url_for('detail_commande', entite=entite, id_cmd=id_cmd, type_cmd=type_cmd))
 
             if etat in ["validee", "invalidee"]:
-                date_validation = request.form["date"]
+                date_validation = dateMinuteSecondes(tempsZero)
                 if type_cmd == "pieces":
                     resultat = change_etat_commande_pieces_recu(id_cmd, etat, date_validation)
                 if type_cmd == "kit":
@@ -314,7 +314,7 @@ def commande_kits():
                     flash("La quantité à commander doit être un entier (ou 'None')")
                     return redirect(url_for('commande_kits'))
                 dict_kit[id_kit] = value
-        date_commande = request.form["date"]
+        date_commande = dateMinuteSecondes(tempsZero)
         try:
             passer_commande_kits(dict_kit, date_commande)
             flash("Commande(s) envoyée(s)!")

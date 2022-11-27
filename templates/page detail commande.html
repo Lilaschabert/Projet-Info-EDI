@@ -18,11 +18,6 @@
 			{% if (entite==client and liste_donnee_cmd["etat"]=="envoyee") or entite=="admin" %}
 				<form method="post" class="form-etat-cmd">
 					<p>Réception de la commande:</p>
-					{% if liste_donnee_cmd["date_validation"]!=None %}
-						<input type="text" name='date' value='{{liste_donnee_cmd["date_validation"]}}' placeholder="date de reception"/>
-					{% else %}
-						<input type="text" name='date' value='' placeholder="date de reception"/>
-					{% endif %}
 					<div>
 						<input type="submit" name='etat' value="Valider"/>
 						<input type="submit" name='etat' value="Invalider"/>
