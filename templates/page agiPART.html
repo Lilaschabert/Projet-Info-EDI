@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>Prau'G INFO</h1>
+	<h1>AgiPart</h1>
 	<div id = "premierTrait"></div>
-	<h3>C'est AgiPART</h3>
+	<h3>Prau'G INFO</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-		<h2> Catalogue AgiPART</h2>
+		<h2> Catalogue AgiPart</h2>
 		</div>
 		<div class = "listeliens">
 			<ul>
-				<li><a href='{{ url_for("historique", entite="AgiPart") }}'>Historique des commandes</a></li>
-				<li><a href="#">agipart lien 1</a></li>
-				<li><a href="#">agipart lien 2</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiPart", type_cmd="pieces") }}'>Historique des commandes</a></li>
 			</ul>
 		</div>
 	</section>

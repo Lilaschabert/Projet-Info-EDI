@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>Prau'G INFO</h1>
+	<h1>AgiLean</h1>
 	<div id = "premierTrait"></div>
-	<h3>C'est AgiLEAN</h3>
+	<h3>Prau'G INFO</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-		<h2> Catalogue AgiLEAN</h2>
+		<h2> Catalogue AgiLean</h2>
 		</div>
 		<div class = "listeliens">
 			<ul>
-				<li id="agileanlien1"><a href="#">agilean lien 1</a></li>
-				<li id="agileanlien2"><a href="#">agilean lien 2</a></li>
+				<li><a href='{{ url_for("affichage_kits") }}'>Liste des kits</a></li>
+				<li><a href='{{ url_for("creation_kit") }}'>Création d'un kit</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiLean", type_cmd="kit") }}'>Historique des commandes de kits</a></li>
+				<li><a href='{{ url_for("commande_kits") }}'>Commande de kit</a></li>
 			</ul>
 		</div>
 	</section>

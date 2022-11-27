@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>Prau'G INFO</h1>
+	<h1>AgiLOG</h1>
 	<div id = "premierTrait"></div>
-	<h3>C'est AgiLOG</h3>
+	<h3>Prau'G INFO</h3>
 </div>
 <div id ="mainBody">
 	<section id = "presentation">
@@ -15,7 +15,8 @@
 				<li><a href='{{ url_for("stock") }}'>Affihage Stock</a></li>
 				<li><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
 				<li><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
-				<li><a href='{{ url_for("historique", entite="AgiLog") }}'>Historique des commandes</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="pieces") }}'>Historique des commandes de pièces</a></li>
+				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="kit") }}'>Historique des commandes de kits</a></li>
 			</ul>
 		</div>
 	</section>

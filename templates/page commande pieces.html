@@ -1,16 +1,16 @@
  {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>AgiLOG</h1>
+	<h1>AgiLean</h1>
 	<div id = "premierTrait"></div>
-	<h3>Stock</h3>
+	<h3>Commande de pièces</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
 			<h2>Commande de pièces {% if filtre %}en dessous du seuil{% endif %}</h2>
-			<li id="lienStock" class="listeliens"><a href='{{ url_for("stock") }}'>Retour aux stocks</a></li>
+			<li class="listeliens"><a href='{{ url_for("stock") }}'>Retour aux stocks</a></li>
 		</div>
 	</section>
 
@@ -25,7 +25,7 @@
 	{% endwith %}
 
 	<form method="post">
-		<section id="stock">
+		<section id="tableau_pieces">
 			<input id="date-input" type="text" name='date' value='' placeholder="date de la commande"/>
 			<table class="cinereousTable">
 				<thead>
@@ -42,10 +42,10 @@
 					{% for piece in liste_stock %}
 						<tr>
 							{% for case in liste_case %}
-							<td>{{piece[case]}}</td>
+								<td>{{piece[case]}}</td>
 							{% endfor%}
 							{% for case in liste_case_input %}
-							<td> <input class="stock-input" type="text" name='{{ piece["code_article"] }}' value='{% if piece[case]!=None %} {{[piece[case],0]|max}} {% else %}0{% endif %}'/> </td>
+								<td> <input class="stock-input" type="text" name='{{ piece["code_article"] }}' value='{% if piece[case]!=None %} {{[piece[case],0]|max}} {% else %}0{% endif %}'/> </td>
 							{% endfor%}
 						</tr>
 					{% endfor %}

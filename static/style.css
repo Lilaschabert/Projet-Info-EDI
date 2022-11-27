@@ -40,14 +40,14 @@ p{
 	font-size: 1.2em;
 }
 
-/* ***************STOCKS**************** */
-#stock{
+/* *************STOCKS/KIT************** */
+#tableau_pieces,#tableau_kits{
 	display: flex;
 	flex-direction: column;
 	align-items:center;
 }
 
-input.stock-input{
+input.stock-input,input.kits-input{
 	font-size: 1em;
 	font-family: Georgia, serif;
 	width: auto;
@@ -56,7 +56,7 @@ input.stock-input{
 	padding: 4px 10px;
 }
 
-#date-input{
+#date-input,#name-input{
 	width: auto;
 	text-align:center;
 }
@@ -75,7 +75,7 @@ input.stock-input{
 #listeCommandeTable td{
 	padding: 0;
 }
-.lienCommande{
+.lienTable{
 	display: flex;
 	padding: 4px 10px;
 	justify-content: center;

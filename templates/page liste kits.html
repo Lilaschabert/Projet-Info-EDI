@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <div id = "imagePrincipale">
-	<h1>{{entite}}</h1>
+	<h1>AgiLean</h1>
 	<div id = "premierTrait"></div>
-	<h3>Historique</h3>
+	<h3>Kits</h3>
 </div>
 
 <div id ="mainBody">
 	<section id = "presentation">
 		<div id = "textIntro">
-			<h2>Historique des commandes de {{type_cmd}}</h2>
+			<h2>Liste des kits</h2>
+			<li class="listeliens"><a href='{{ url_for("creation_kit") }}'>Création d'un kit</a></li>
 		</div>
 	</section>
 
@@ -24,17 +25,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for commande in liste_commandes %}
+				{% for kit in liste_kits %}
 					<tr>
 						{% for case in liste_noms_case %}
-							{% if commande[case]!=None %}
-								{% set value=commande[case] %}
+							{% if kit[case]!=None %}
+								{% set value=kit[case] %}
 							{% else %}
 								{% set value='' %}
 							{% endif %}
-							<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"], type_cmd=type_cmd) }}'>{{value}}</a></td>
+							<td><a class='lienTable' href='{{ url_for("detail_kit",id_kit=kit["id"]) }}'>{{value}}</a></td>
 						{% endfor%}
-						<td><a class='lienTable' href='{{ url_for("detail_commande",entite=entite,id_cmd=commande["id"], type_cmd=type_cmd) }}'><button type="submit" value="Editer">Editer</button></a></td>
+						<td><a class='lienTable' href='{{ url_for("detail_kit",id_kit=kit["id"]) }}'><button type="submit" value="Editer">Détails</button></a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

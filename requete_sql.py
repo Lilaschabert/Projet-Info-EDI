@@ -17,17 +17,23 @@ def historique_commande_pieces(nom_fournisseur=""):
     JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur"""
     if nom_fournisseur != "":
         querry += " WHERE fournisseur.nom='" + nom_fournisseur + "'"
-    cur.execute(querry + " ORDER BY etat ASC, date_commande;")
+    cur.execute(querry + " ORDER BY etat, date_commande;")
     lignes = cur.fetchall()
     conn.close()
     return lignes
 
 
-def expedition_commande(id_commande):
+def expedition_commande(id_commande, type_cmd):
     """Requete pour valider l'expedition d'une commande"""
     try:
         conn, cur = connection_bdd()
-        cur.execute("UPDATE commande_pieces SET etat='envoyee' WHERE id = ?", (str(id_commande)))
+        if type_cmd == "pieces":
+            cur.execute("UPDATE commande_pieces SET etat='envoyee' WHERE id = ?", (str(id_commande)))
+        elif type_cmd == "kit":
+            cur.execute("UPDATE commande_kits SET etat='envoyee' WHERE id = ?", (str(id_commande)))
+        else:
+            conn.close()
+            return False
         conn.commit()
         conn.close()
         return True
@@ -47,7 +53,7 @@ def commandes_recu():
     return lignes
 
 
-def liste_pieces_commande(id_commande):
+def liste_pieces_commande_pieces(id_commande):
     """Requete pour renvoyer les pièces d'une commande définie par son id"""
     conn, cur = connection_bdd()
     querry = """SELECT designation,code_article,nombre_piece FROM pieces
@@ -62,7 +68,7 @@ def liste_pieces_commande(id_commande):
 
 def sql_detail_commande_pieces(id_commande):
     """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
-    liste_pieces = liste_pieces_commande(id_commande)
+    liste_pieces = liste_pieces_commande_pieces(id_commande)
     conn, cur = connection_bdd()
     querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
     JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
@@ -76,7 +82,7 @@ def sql_detail_commande_pieces(id_commande):
         return [], []
 
 
-def change_etat_commande_recu(id_commande, etat, date_validation):
+def change_etat_commande_pieces_recu(id_commande, etat, date_validation):
     """Requete pour valider/invalider une commande reçue par AgiLog"""
     if not (etat in ["validee", "invalidee"]):
         return False
@@ -84,7 +90,7 @@ def change_etat_commande_recu(id_commande, etat, date_validation):
         conn, cur = connection_bdd()
         # modification des stocks si la commande est validée
         if etat == "validee":
-            liste_pieces = liste_pieces_commande(id_commande)
+            liste_pieces = liste_pieces_commande_pieces(id_commande)
             for piece in liste_pieces:
                 cur.execute("UPDATE pieces SET stock=stock+? WHERE code_article = ?",
                             (piece["nombre_piece"], piece["code_article"]))
@@ -185,6 +191,181 @@ def sql_init_stock(dict_pieces):
         query = "UPDATE pieces SET " + "=?,".join(liste_case) + "=? WHERE id = ?;"
         data_query = tuple([data[case] for case in liste_case] + [str(id_piece)])
         cur.execute(query, data_query)
+    conn.commit()
+    conn.close()
+    return True
+
+
+# gestion des kits
+def sql_creation_kit(dict_nombre_pieces, nom_kit):
+    """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
+    et comme valeur dans chaque case le nombre de pièces correspondant"""
+    conn, cur = connection_bdd()
+    cur.execute("SELECT id,code_article,idFournisseur FROM pieces;")
+    liste_pieces = cur.fetchall()
+    dict_id_pieces = {}
+    for piece in liste_pieces:
+        dict_id_pieces[piece['code_article']] = piece['id']
+
+    dict_nombre_pieces_id = {}
+    for code_article, nombre_pieces in dict_nombre_pieces.items():
+        if nombre_pieces >= 1:
+            dict_nombre_pieces_id[dict_id_pieces[code_article]] = nombre_pieces
+
+    cur.execute("INSERT INTO kits('nom') VALUES (?);", (nom_kit,))
+    conn.commit()
+    if len(dict_nombre_pieces_id) >= 1:
+        # cur.execute("SELECT id FROM commande_pieces WHERE date_commande=? AND etat=? AND idFournisseur=?;",(date_commande, "commandee", fournisseur['id']))
+        # id_commande = cur.fetchall()[0]['id']
+        cur.execute("SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME='kits';")
+        id_kit = cur.fetchall()[0]['SEQ']
+        for id_pieces, nombre_piece in dict_nombre_pieces_id.items():
+            cur.execute(
+                "INSERT INTO piece_kit('id_piece', 'id_kit', 'nombre_piece') VALUES (?,?,?)",
+                (str(id_pieces), str(id_kit), str(nombre_piece)))
+        conn.commit()
+    conn.close()
+    return True
+
+
+def sql_pieces_existantes():
+    """Fonction pour récupérer les donnes relatives à l'affichage de stock"""
+    conn, cur = connection_bdd()
+    querry = """SELECT pieces.id,designation,code_article FROM pieces;"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+def liste_pieces_kit(id_kit):
+    """Requete pour renvoyer les pièces d'une commande définie par son id"""
+    conn, cur = connection_bdd()
+    querry = """SELECT designation,code_article,nombre_piece FROM pieces
+    JOIN piece_kit ON piece_kit.id_piece=pieces.id
+    WHERE piece_kit.id_kit=?;"""
+    cur.execute(querry, (str(id_kit),))
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+def sql_detail_kit(id_kit):
+    """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
+    liste_pieces = liste_pieces_kit(id_kit)
+    conn, cur = connection_bdd()
+    querry = """SELECT id,nom FROM kits
+    WHERE id=?;"""
+    cur.execute(querry, (str(id_kit)))
+    lignes = cur.fetchall()
+    conn.close()
+    if len(lignes) == 1:
+        return lignes[0], liste_pieces
+    else:
+        return [], []
+
+
+def sql_liste_kits():
+    """Requetes pour l'affichage des kits existants"""
+    conn, cur = connection_bdd()
+    querry = """SELECT id,nom FROM kits;"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+# commande de kits
+def historique_commande_kits():
+    """Requetes pour les pages d'historique des kits"""
+    conn, cur = connection_bdd()
+    querry = """SELECT id,date_commande,date_validation,etat FROM commande_kits
+    ORDER BY etat, date_commande;"""
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    return lignes
+
+
+def liste_pieces_commande_kit(id_commande):
+    """Requete pour renvoyer les pièces d'une commande de kit définie par son id"""
+    conn, cur = connection_bdd()
+    querry = """SELECT id_kit, nombre_kit FROM contenu_commande_kit
+    WHERE id_commande=?;"""
+    cur.execute(querry, (str(id_commande)))
+    lignes = cur.fetchall()
+    conn.close()
+
+    liste_pieces = []
+    liste_code_existant = []
+    dict_assoc_pieces_case = {}
+
+    for kit in lignes:
+        liste_pieces_temp = liste_pieces_kit(kit["id_kit"])
+        for pieces in liste_pieces_temp:
+            if pieces["code_article"] in liste_code_existant:
+                case = dict_assoc_pieces_case[pieces["code_article"]]
+                liste_pieces[case]["nombre_piece"] += pieces["nombre_piece"] * kit["nombre_kit"]
+            else:
+                liste_code_existant.append(pieces["code_article"])
+                liste_pieces.append({})
+                case = len(liste_pieces) - 1
+                dict_assoc_pieces_case[pieces["code_article"]] = case
+                liste_pieces[case]["designation"] = pieces["designation"]
+                liste_pieces[case]["code_article"] = pieces["code_article"]
+                liste_pieces[case]["nombre_piece"] = pieces["nombre_piece"] * kit["nombre_kit"]
+    return liste_pieces
+
+
+def sql_detail_commande_kit(id_commande):
+    """Permet de recupérer les données globl de la commande, ainsi qu'une table des pièces qui la constitue"""
+    liste_pieces = liste_pieces_commande_kit(id_commande)
+    conn, cur = connection_bdd()
+    querry = """SELECT id,date_commande,date_validation,etat FROM commande_kits
+    WHERE id='{}' ;""".format(str(id_commande))
+    cur.execute(querry)
+    lignes = cur.fetchall()
+    conn.close()
+    if len(lignes) == 1:
+        return lignes[0], liste_pieces
+    else:
+        return [], []
+
+
+def change_etat_commande_kit_recu(id_commande, etat, date_validation):
+    """Requete pour valider/invalider une commande reçue par AgiLog"""
+    if not (etat in ["validee", "invalidee"]):
+        return False
+    try:
+        conn, cur = connection_bdd()
+        # modification des stocks si la commande est validée
+        if etat == "validee":
+            liste_pieces = liste_pieces_commande_kit(id_commande)
+            for piece in liste_pieces:
+                cur.execute("UPDATE pieces SET stock=stock-? WHERE code_article = ?",
+                            (piece["nombre_piece"], piece["code_article"]))
+        cur.execute("UPDATE commande_kits SET etat=?,date_validation=? WHERE id = ?",
+                    (etat, date_validation, str(id_commande)))
+        conn.commit()
+        conn.close()
+        return True
+    except lite.Error:
+        return False
+
+
+def passer_commande_kits(dict_nombre_kits, date_commande):
+    """<dict_nombre_pieces> est un dictionnaire avec pour clé le code_article des pièces à commander,
+    et comme valeur dans chaque case le nombre de pièces correspondant"""
+    conn, cur = connection_bdd()
+    cur.execute("INSERT INTO commande_kits('date_commande', 'etat') VALUES (?,?);",
+                (date_commande, "commandee"))
+    conn.commit()
+    cur.execute("SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME='commande_kits';")
+    id_commande = cur.fetchall()[0]['SEQ']
+    for id_kits, nombre_kits in dict_nombre_kits.items():
+        if nombre_kits > 0:
+            cur.execute("INSERT INTO contenu_commande_kit('id_kit', 'id_commande', 'nombre_kit') VALUES (?,?,?)",
+                        (str(id_kits), str(id_commande), str(nombre_kits)))
     conn.commit()
     conn.close()
     return True
