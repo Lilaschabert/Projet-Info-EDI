@@ -257,7 +257,7 @@ def creation_kit():
                            liste_case=liste_case, liste_entete_input=liste_entete_input)
 
 
-@app.route('/AgiLean/kit/<int:id_kit>', methods=['GET', 'POST'])
+@app.route('/AgiLean/kit/<int:id_kit>')
 def detail_kit(id_kit):
     donnee_kit, liste_pieces = sql_detail_kit(id_kit)
     title = str(donnee_kit["nom"])
