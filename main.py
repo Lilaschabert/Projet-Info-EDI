@@ -44,13 +44,7 @@ def agiPART():
     return render_template('page agiPART.html', title=title)
 
 
-@app.route('/commandes')
-def commandes():
-    title = "Commande de kit"
-    return render_template('page commande.html', title=title)
-
-
-@app.route('/stock')
+@app.route('/AgiLog/stock')
 def stock():
     title = "Stock AgiLog"
     liste_stock = affichage_stock()
@@ -60,7 +54,7 @@ def stock():
                            liste_noms_case=liste_noms_case)
 
 
-@app.route('/init_stock', methods=['GET', 'POST'])
+@app.route('/AgiLog/init_stock', methods=['GET', 'POST'])
 def init_stock():
     title = "Initialisation Stock AgiLog"
     liste_stock = affichage_stock()

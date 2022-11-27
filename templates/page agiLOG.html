@@ -13,6 +13,7 @@
 		<div class="listeliens">
 			<ul>
 				<li><a href='{{ url_for("stock") }}'>Affichage Stock</a></li>
+				<li><a href='{{ url_for("init_stock") }}'>Initialisation</a></li>
 				<li><a href='{{ url_for("commande_pieces") }}'>Commander les pièces sous le seuil</a></li>
 				<li><a href='{{ url_for("commande_pieces",forcer="True") }}'>Commander des pièces</a></li>
 				<li><a href='{{ url_for("historique", entite="AgiLog", type_cmd="pieces") }}'>Historique des commandes de pièces</a></li>
