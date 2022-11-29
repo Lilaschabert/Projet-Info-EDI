@@ -107,8 +107,8 @@ def init_stock():
 def commande_pieces():
     """Affiche toutes les pièces dont le stock fictif (stock réel+stock en commande) est en dessus du seuil de commande
     La case de la quantité à commander est prérempli avec le delta entre le stock fictif et le niveau de recompletion
-    On peut générer la page pour commander toutes les pièces (ou partie en mettant 'None' pour les pièces que l'on ne veut pas commander)
-    en rajoutant ?forcer=True à la fin de l'URL"""
+    On peut générer la page pour commander toutes les pièces (ou partie en mettant 'None' pour les pièces que l'on ne
+    veut pas commander) en rajoutant ?forcer=True à la fin de l'URL"""
     title = "Commande de pièces par AgiLog"
 
     liste_entete = ["Désignation", "Code article", "Fournisseur", "Stock", "Stock fictif", "Seuil de commande",

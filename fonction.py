@@ -8,6 +8,7 @@ def dateMinuteSecondes(tempsZero):
     dateStr = dateListe[1] + ":" + dateListe[2].split(".")[0]
     return dateStr
 
+
 def connection_bdd():
     """Connection au fichier bdd"""
     con = lite.connect('dev.db')
@@ -67,7 +68,7 @@ def liste_pieces_commande_pieces(id_commande):
     JOIN contenu_commande_pieces ON id_piece=pieces.id
     JOIN commande_pieces ON commande_pieces.id=id_commande
     WHERE commande_pieces.id=?;"""
-    cur.execute(querry, (str(id_commande)))
+    cur.execute(querry, (id_commande,))
     lignes = cur.fetchall()
     conn.close()
     return lignes
@@ -79,8 +80,8 @@ def sql_detail_commande_pieces(id_commande):
     conn, cur = connection_bdd()
     querry = """SELECT commande_pieces.id,date_commande,date_validation,etat,nom FROM commande_pieces
     JOIN fournisseur ON fournisseur.id=commande_pieces.idFournisseur
-    WHERE commande_pieces.id='{}' ;""".format(str(id_commande))
-    cur.execute(querry)
+    WHERE commande_pieces.id=? ;"""
+    cur.execute(querry, (id_commande,))
     lignes = cur.fetchall()
     conn.close()
     if len(lignes) == 1:
@@ -137,8 +138,6 @@ def passer_commande_pieces(dict_nombre_pieces, date_commande):
             cur.execute("INSERT INTO commande_pieces('date_commande', 'etat', 'idFournisseur') VALUES (?,?,?);",
                         (date_commande, "commandee", fournisseur['id']))
             conn.commit()
-            # cur.execute("SELECT id FROM commande_pieces WHERE date_commande=? AND etat=? AND idFournisseur=?;",(date_commande, "commandee", fournisseur['id']))
-            # id_commande = cur.fetchall()[0]['id']
             cur.execute("SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME='commande_pieces';")
             id_commande = cur.fetchall()[0]['SEQ']
             for id_pieces, nombre_pieces in dict_commande_par_fournisseur[fournisseur['id']].items():
